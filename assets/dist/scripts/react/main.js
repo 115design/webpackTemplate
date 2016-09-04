@@ -50,7 +50,6 @@
 	/**
 	 * @fileoverview react/main.tsx
 	 *
-	 * @require  jquery1.8.3.js:above
 	 * @version  1.1.7
 	 * @update   2016/09/04
 	 */
