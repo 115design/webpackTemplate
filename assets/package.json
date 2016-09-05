@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "115INDUSTRIES",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "browser-sync": "^2.14.3",
     "glob": "^7.0.6",
