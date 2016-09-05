@@ -7,11 +7,11 @@ This is Webpack Template.(Webpack/Typescript/React/Sass/Browser-sync/Gulp)
 ## Installation
 
     $ git clone https://github.com/115design/webpackTemplate.git
+    $ cd webpackTemplate/assets
     $ npm install
     $ export PATH=$PATH:./node_modules/.bin
     $ typings install
     $ npm run start
-
 
 ## Author
 
