@@ -13,7 +13,7 @@ gulp.task('imagemin', function() {
       .pipe(gulp.dest('./img/'));
     // gulp.src('img/**/*.{png,jpg,jpeg}')
     //   .pipe(tinypng({
-    //     key: 'AderXSp4MMoC7KDERoMYGvEjcNRMRx__',
+    //     key: '',
     //     log: true,
     //     sameDest: true
     //   }));
