@@ -4,19 +4,6 @@
   
 }
 
-#header {
-  width: 4.77em;
-  height: 2.71em;
-  margin-left: 1.00em;
-  h1 {
-    @include replaceImage;
-    width: 4.77em;
-    height: 2.71em;
-    background: url(../../img/top/sp/txt-01.png) top center no-repeat;
-    background-size: contain;
-  }
-}
-
 // ---------------------------------------------------------------------------------------
 //
 // SMARTPHONE
