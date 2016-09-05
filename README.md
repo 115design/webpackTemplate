@@ -1,80 +1,21 @@
-# Awesome-name
+# webpackTemplate
 
 ![Badge Status](https://ci-as-a-service)
 
-OverviewOverviewOverview
-
-## Description
-
-DescriptionDescriptionDescription
-DescriptionDescriptionDescription
-DescriptionDescriptionDescription
-
-***DEMO:***
-
-![Demo](https://image-url.gif)
-
-## Features
-
-- Awesome function
-- Awesome UI
-- ...
-
-For more information, see `awesome-tool --help`.
-
-## Requirement
-
-- Requirement
-- Requirement
-- Requirement
+This is Webpack Template.(Webpack/Typescript/React/Sass/Browser-sync/gulp)
 
 ## Usage
 
-1. Usage
-2. Usage
-3. Usage
 
 ## Installation
 
-    $ git clone https://github.com/b4b4r07/awesome-tool
+    $ git clone https://github.com/115design/webpackTemplate.git
 
-## Anything Else
-
-AnythingAnythingAnything
-AnythingAnythingAnything
-AnythingAnythingAnything
 
 ## Author
 
-[@b4b4r07](https://twitter.com/b4b4r07)
+[115design](http://115design.main.jp/)
 
 ## License
 
 [MIT](http://b4b4r07.mit-license.org)
-
-Name
-====
-
-Overview
-
-## Description
-
-## Demo
-
-## VS. 
-
-## Requirement
-
-## Usage
-
-## Install
-
-## Contribution
-
-## Licence
-
-[MIT](https://github.com/tcnksm/tool/blob/master/LICENCE)
-
-## Author
-
-[tcnksm](https://github.com/tcnksm)
