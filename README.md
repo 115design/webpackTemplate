@@ -1,15 +1,16 @@
 # webpackTemplate
 
-![Badge Status](https://ci-as-a-service)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 This is Webpack Template.(Webpack/Typescript/React/Sass/Browser-sync/gulp)
-
-## Usage
-
 
 ## Installation
 
     $ git clone https://github.com/115design/webpackTemplate.git
+    $ npm install
+    $ export PATH=$PATH:./node_modules/.bin
+    $ typings install
+    $ npm run start
 
 
 ## Author
