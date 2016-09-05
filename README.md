@@ -1,27 +1,53 @@
-# webpackTemplate
-THIS IS WEBPACK TEMPLATE
-====
+# Awesome-name
 
-Overview
+![Badge Status](https://ci-as-a-service)
+
+OverviewOverviewOverview
 
 ## Description
 
-## Demo
+DescriptionDescriptionDescription
+DescriptionDescriptionDescription
+DescriptionDescriptionDescription
 
-## VS. 
+***DEMO:***
+
+![Demo](https://image-url.gif)
+
+## Features
+
+- Awesome function
+- Awesome UI
+- ...
+
+For more information, see `awesome-tool --help`.
 
 ## Requirement
 
+- Requirement
+- Requirement
+- Requirement
+
 ## Usage
 
-## Install
+1. Usage
+2. Usage
+3. Usage
 
-## Contribution
+## Installation
 
-## Licence
+    $ git clone https://github.com/b4b4r07/awesome-tool
 
-[MIT](https://github.com/tcnksm/tool/blob/master/LICENCE)
+## Anything Else
+
+AnythingAnythingAnything
+AnythingAnythingAnything
+AnythingAnythingAnything
 
 ## Author
 
-[tcnksm](https://github.com/tcnksm)
+[@b4b4r07](https://twitter.com/b4b4r07)
+
+## License
+
+[MIT](http://b4b4r07.mit-license.org)
