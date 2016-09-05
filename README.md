@@ -1,6 +1,6 @@
 # webpackTemplate
 
-![MIT License](http://b4b4r07.mit-license.org)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 This is Webpack Template.(Webpack/Typescript/React/Sass/Browser-sync/gulp)
 
