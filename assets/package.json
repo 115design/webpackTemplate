@@ -4,7 +4,6 @@
   "description": "THIS IS WEBPACK TEMPLATE",
   "main": "index.js",
   "scripts": {
-    "postinstall": "export PATH=$PATH:./node_modules/.bin & typings install",
     "start": "npm run watch:scss & webpack --watch -d & browser-sync start --config bs-config.js",
     "watch:scss": "nodemon --watch src/styles -e scss -x 'npm run sass'",
     "sass": "node-sass --output-style expanded --source-map true -o dist/styles -r src/styles",
