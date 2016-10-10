@@ -1,14 +1,42 @@
 @charset "utf-8";
+body {
+
+}
+
+#container {
+}
 
 #viewport {
-  
+
 }
+
+.wf-active #viewport {
+
+}
+
+#viewport {
+
+}
+
+#main {
+
+}
+
+
 
 // ---------------------------------------------------------------------------------------
 //
 // SMARTPHONE
 //
 // ---------------------------------------------------------------------------------------
+@media only screen and (min-width: 320 + px) {
+
+}
+
+@media only screen and (min-width: 375 + px) {
+
+}
+
 @media only screen and (min-width: $sp_width + px) {
 
 }
@@ -27,6 +55,4 @@
 // PC
 //
 // ---------------------------------------------------------------------------------------
-@media only screen and (min-width: $pc_width + px) {
-
-}
+@media only screen and (min-width: $pc_width + px) {}

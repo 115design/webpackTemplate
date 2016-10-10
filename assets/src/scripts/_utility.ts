@@ -10,7 +10,6 @@
 
 'use strict';
 import Config from './_config.ts';
-// import $ = require('jquery');
 
 /* ------------------------------------------------
 *
@@ -23,6 +22,7 @@ interface Window {
   cancelRequestAnimFrame: any;
   [key: string]: any;
 }
+declare var window: Window;
 
 interface NumbersAndStringsAndObjects {
   [key: string]: any;
@@ -121,105 +121,22 @@ namespace Utility {
     public trim(
       targetString: string,
       maxNumber: number,
-      defaultString: string = ''
+      replaceString: string = '...'
     ): string {
-      let trimString = defaultString;
+      let trimString:string;
       if (targetString !== null && targetString !== '') {
         if (maxNumber < targetString.length) {
-          let tempString = targetString.substr(0, maxNumber) + '...';
+          let tempString = targetString.substr(0, maxNumber) + replaceString;
           trimString = tempString;
         }
         else {
           trimString = targetString;
         }
+        return trimString;
       }
-      return trimString;
-    }
-  }
-
-  /* ------------------------------------------------
-  *
-  * ImageLoader
-  *
-  *
-  ------------------------------------------------ */
-  export class ImageLoader {
-    private nowPercent: NumbersAndStringsAndObjects;
-    private counterName: string;
-    private windowStatusOperator: WindowStatusOperator;
-
-    constructor() {
-      let this_ = this;
-      this_.windowStatusOperator = new WindowStatusOperator();
-      this_.nowPercent = {};
-    }
-
-    public load(
-      images: string[],
-      initialize: () => void,
-      progress: () => void,
-      complete: (nowPercent: NumbersAndStringsAndObjects, counterName: string) => void
-    ): void {
-      let this_ = this;
-      // オブジェクト配列の書き方
-      let img: {
-        onload: {},
-        src: string
-      }[] = [];
-      let total: number = images.length;
-      let decrementCount: number = total;
-      this_.counterName = 'preload-' + (new Date()).getTime();
-      this_.nowPercent[this_.counterName] = 0;
-
-      for (let i = 0; i < total; i++) {
-        let src: string = images[i];
-        img[i] = new Image();
-        img[i].onload = function() {
-          decrementCount--;
-          this_.nowPercent[this_.counterName] = Math.ceil(100 * (total - decrementCount) / total);
-          if (decrementCount === total - 1) {
-            initialize();
-          }
-          if (0 < decrementCount) {
-            progress();
-          }
-          else {
-            complete(this_.nowPercent, this_.counterName);
-          }
-        };
-        img[i].src = src;
+      else {
+        return targetString;
       }
-    }
-
-    public removeWithKey(
-      target: NumbersAndStringsAndObjects,
-      keyName: string
-    ): void {
-      for (let key in target) {
-        if (key === keyName) {
-          delete target[key];
-          break;
-        }
-      }
-    }
-
-    public fitParentElement(target: JQuery): void {
-      target.find('img').removeAttr('style');
-      let ratio: number = target.width() / target.find('img').width();
-      let width: number = Math.round(target.find('img').width() * ratio);
-      let height: number = Math.round(target.find('img').height() * ratio);
-      if (target.height() > height) {
-        ratio = target.height() / height;
-        width = Math.round(width * ratio);
-        height = Math.round(height * ratio);
-      }
-      target.find('img').width(width);
-      target.find('img').height(height);
-      target.find('img').css({
-        top: -target.find('img').height() / 2 + target.height() / 2,
-        left: -target.find('img').width() / 2 + target.width() / 2
-      });
-      target.find('img').css('visibility', 'visible');
     }
   }
 
@@ -230,7 +147,7 @@ namespace Utility {
   *
   ------------------------------------------------ */
   export class DialogOperator {
-    private configuration = {
+    private configuration_ = {
       'viewport': window,
       'container': '#container',
       'background': '.modal-window-area',
@@ -245,12 +162,12 @@ namespace Utility {
 
     constructor(configuration: {} = {}) {
       let this_ = this;
-      $.extend(this_.configuration, configuration);
+      $.extend(this_.configuration_, configuration);
     }
 
     public showDialog(configuration: {} = {}): void {
       let this_ = this;
-      let mergedConfiguration = $.extend(this_.configuration, configuration);
+      let mergedConfiguration = $.extend(this_.configuration_, configuration);
       let viewport = mergedConfiguration.viewport;
       let container = mergedConfiguration.container;
       let bg = mergedConfiguration.background;
@@ -271,7 +188,6 @@ namespace Utility {
       if ($(dialog).outerHeight() + mergedConfiguration.topMargin >= $(viewport).outerHeight()) {
 
         $(container).css('top', 0);
-
         $(dialog).css('margin-top', mergedConfiguration.topMargin);
 
         if ($(dialog).outerHeight() + mergedConfiguration.topMargin >= $(container).outerHeight()) {
@@ -279,6 +195,25 @@ namespace Utility {
         }
         else {
           $(bg).find(mask).outerHeight($(container).outerHeight());
+
+          if (viewport === window) {
+            scrollTop = $(window).scrollTop();
+            adjustTop = scrollTop + $(window).outerHeight() / 2 - $(dialog).outerHeight() / 2;
+          }
+          else {
+            scrollTop = Number(($(container).css('top').match(/(\d+)/) || [])[1]);
+            adjustTop = scrollTop + $(window).outerHeight() / 2 - $(dialog).outerHeight() / 2;
+          }
+
+          if (scrollTop > adjustTop || !mergedConfiguration.centering) {
+            adjustTop = scrollTop + mergedConfiguration.topMargin;
+          }
+
+          if (adjustTop + $(dialog).outerHeight() >= $(container).outerHeight()) {
+            adjustTop = adjustTop - (adjustTop + $(dialog).outerHeight() -  $(container).outerHeight())
+          }
+
+          $(dialog).css('margin-top', adjustTop);
         }
 
         adjustMaskHeight();
@@ -314,11 +249,14 @@ namespace Utility {
         mergedConfiguration.fitTimerID = setInterval(function() {
           if ($(dialog).outerHeight() + mergedConfiguration.topMargin >= $(container).outerHeight()) {
             $(bg).find(mask).outerHeight($(dialog).outerHeight() + mergedConfiguration.topMargin * 2);
-            clearInterval(mergedConfiguration.fitTimerID);
+            // clearInterval(mergedConfiguration.fitTimerID);
+          }
+          else {
+            $(bg).find(mask).outerHeight($(container).outerHeight());
           }
 
           timerCounter++;
-          if (timerCounter >= 10) {
+          if (timerCounter >= 50) {
             clearInterval(mergedConfiguration.fitTimerID);
           }
         }, 200);
@@ -382,7 +320,7 @@ namespace Utility {
 
     public closeDialog(configuration: {} = {}): void {
       let this_ = this;
-      let mergedConfiguration = $.extend(this_.configuration, configuration);
+      let mergedConfiguration = $.extend(this_.configuration_, configuration);
 
       let bg = mergedConfiguration.background;
       let dialog = mergedConfiguration.dialogID;

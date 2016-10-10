@@ -18,7 +18,7 @@ module.exports = {
       "port": 8080
     }
   },
-  "files": "./**/*",
+  "files": ["../**/*"],
   "watchOptions": {
     "ignoreInitial": true,
     "ignored": [

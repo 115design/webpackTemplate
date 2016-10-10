@@ -53,19 +53,98 @@
 	 *
 	 * @require  jquery1.8.3.js:above
 	 * @version  1.1.7
-	 * @update   2016/09/04
+	 * @update   2016/09/23
 	 */
 	/// <reference path="../../../typings/index.d.ts" />
 	'use strict';
 	var _utility_ts_1 = __webpack_require__(/*! ../_utility.ts */ 172);
-	// import $ = require('jquery');
-	(function () {
+	(function (window) {
 	    var windowStatus = new _utility_ts_1.default.WindowStatusOperator();
+	    var dialog = new _utility_ts_1.default.DialogOperator();
 	    $(function () {
-	        console.log(_utility_ts_1.default.configuration);
-	        console.log(windowStatus.anyMobile());
+	        function neutralize() {
+	        }
+	        function clear() {
+	        }
+	        function getDirection(e, obj) {
+	            var w = $(obj).width();
+	            var h = $(obj).height();
+	            var x = (e.pageX - $(obj).offset().left - (w / 2)) * (w > h ? (h / w) : 1);
+	            var y = (e.pageY - $(obj).offset().top - (h / 2)) * (h > w ? (w / h) : 1);
+	            var direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
+	            return direction;
+	        }
+	        ;
+	        function getDirectionForSP(e, obj) {
+	            var w = $(obj).width();
+	            var h = $(obj).height();
+	            if (event.touches === void 0) {
+	                event.touches = event.originalEvent.touches;
+	            }
+	            if (event.touches.length === 1) {
+	                var x = (event.touches[0].pageX - $(obj).offset().left - (w / 2)) * (w > h ? (h / w) : 1);
+	                var y = (event.touches[0].pageY - $(obj).offset().top - (h / 2)) * (h > w ? (w / h) : 1);
+	                var direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
+	                return direction;
+	            }
+	            return null;
+	        }
+	        ;
+	        function fit() {
+	            neutralize();
+	            clear();
+	        }
+	        /* ------------------------------------------------
+	        * リサイズ
+	        ------------------------------------------------ */
+	        (function () {
+	            var defaultSize = 1200;
+	            var currentView = null;
+	            var previousView = null;
+	            $(window).on('resize', function () {
+	                if ($(window).outerWidth() < _utility_ts_1.default.configuration.tbWidth) {
+	                    currentView = 'SP';
+	                }
+	                else if ($(window).outerWidth() >= _utility_ts_1.default.configuration.tbWidth && $(window).outerWidth() < _utility_ts_1.default.configuration.pcWidth) {
+	                    currentView = 'TABLET';
+	                }
+	                else {
+	                    currentView = 'PC';
+	                }
+	                if (currentView === 'PC') { }
+	                else if (currentView === 'TABLET') { }
+	                else { }
+	                fit();
+	                if (currentView !== previousView) {
+	                    if (currentView === 'PC') { }
+	                    else if (currentView === 'TABLET') { }
+	                    else { }
+	                    previousView = currentView;
+	                }
+	            });
+	            $(window).trigger('resize');
+	        })();
+	        /* ------------------------------------------------
+	        * オリエンテーションチェンジ
+	        ------------------------------------------------ */
+	        (function () {
+	            var previousStatus = null;
+	            var currentStatus = null;
+	            $(window).on('orientationchange', function () {
+	                if (Math.abs(Number(window.orientation)) === 90) {
+	                    currentStatus = 'horizontal';
+	                }
+	                else {
+	                    currentStatus = 'vertical';
+	                }
+	                if (currentStatus !== previousStatus) {
+	                    previousStatus = currentStatus;
+	                }
+	            });
+	            $(window).trigger('orientationchange');
+	        })();
 	    });
-	}());
+	}(window));
 
 
 /***/ },
@@ -161,93 +240,28 @@
 	    var StringOperator = (function () {
 	        function StringOperator() {
 	        }
-	        StringOperator.prototype.trim = function (targetString, maxNumber, defaultString) {
-	            if (defaultString === void 0) {
-	                defaultString = '';
+	        StringOperator.prototype.trim = function (targetString, maxNumber, replaceString) {
+	            if (replaceString === void 0) {
+	                replaceString = '...';
 	            }
-	            var trimString = defaultString;
+	            var trimString;
 	            if (targetString !== null && targetString !== '') {
 	                if (maxNumber < targetString.length) {
-	                    var tempString = targetString.substr(0, maxNumber) + '...';
+	                    var tempString = targetString.substr(0, maxNumber) + replaceString;
 	                    trimString = tempString;
 	                }
 	                else {
 	                    trimString = targetString;
 	                }
+	                return trimString;
 	            }
-	            return trimString;
+	            else {
+	                return targetString;
+	            }
 	        };
 	        return StringOperator;
 	    }());
 	    Utility.StringOperator = StringOperator;
-	    /* ------------------------------------------------
-	    *
-	    * ImageLoader
-	    *
-	    *
-	    ------------------------------------------------ */
-	    var ImageLoader = (function () {
-	        function ImageLoader() {
-	            var this_ = this;
-	            this_.windowStatusOperator = new WindowStatusOperator();
-	            this_.nowPercent = {};
-	        }
-	        ImageLoader.prototype.load = function (images, initialize, progress, complete) {
-	            var this_ = this;
-	            // オブジェクト配列の書き方
-	            var img = [];
-	            var total = images.length;
-	            var decrementCount = total;
-	            this_.counterName = 'preload-' + (new Date()).getTime();
-	            this_.nowPercent[this_.counterName] = 0;
-	            for (var i = 0; i < total; i++) {
-	                var src = images[i];
-	                img[i] = new Image();
-	                img[i].onload = function () {
-	                    decrementCount--;
-	                    this_.nowPercent[this_.counterName] = Math.ceil(100 * (total - decrementCount) / total);
-	                    if (decrementCount === total - 1) {
-	                        initialize();
-	                    }
-	                    if (0 < decrementCount) {
-	                        progress();
-	                    }
-	                    else {
-	                        complete(this_.nowPercent, this_.counterName);
-	                    }
-	                };
-	                img[i].src = src;
-	            }
-	        };
-	        ImageLoader.prototype.removeWithKey = function (target, keyName) {
-	            for (var key in target) {
-	                if (key === keyName) {
-	                    delete target[key];
-	                    break;
-	                }
-	            }
-	        };
-	        ImageLoader.prototype.fitParentElement = function (target) {
-	            target.find('img').removeAttr('style');
-	            var ratio = target.width() / target.find('img').width();
-	            var width = Math.round(target.find('img').width() * ratio);
-	            var height = Math.round(target.find('img').height() * ratio);
-	            if (target.height() > height) {
-	                ratio = target.height() / height;
-	                width = Math.round(width * ratio);
-	                height = Math.round(height * ratio);
-	            }
-	            target.find('img').width(width);
-	            target.find('img').height(height);
-	            target.find('img').css({
-	                top: -target.find('img').height() / 2 + target.height() / 2,
-	                left: -target.find('img').width() / 2 + target.width() / 2
-	            });
-	            target.find('img').css('visibility', 'visible');
-	        };
-	        return ImageLoader;
-	    }());
-	    Utility.ImageLoader = ImageLoader;
 	    /* ------------------------------------------------
 	    *
 	    * DialogOperator
@@ -259,7 +273,7 @@
 	            if (configuration === void 0) {
 	                configuration = {};
 	            }
-	            this.configuration = {
+	            this.configuration_ = {
 	                'viewport': window,
 	                'container': '#container',
 	                'background': '.modal-window-area',
@@ -272,14 +286,14 @@
 	                'fitTimerID': -1
 	            };
 	            var this_ = this;
-	            $.extend(this_.configuration, configuration);
+	            $.extend(this_.configuration_, configuration);
 	        }
 	        DialogOperator.prototype.showDialog = function (configuration) {
 	            if (configuration === void 0) {
 	                configuration = {};
 	            }
 	            var this_ = this;
-	            var mergedConfiguration = $.extend(this_.configuration, configuration);
+	            var mergedConfiguration = $.extend(this_.configuration_, configuration);
 	            var viewport = mergedConfiguration.viewport;
 	            var container = mergedConfiguration.container;
 	            var bg = mergedConfiguration.background;
@@ -302,6 +316,21 @@
 	                }
 	                else {
 	                    $(bg).find(mask).outerHeight($(container).outerHeight());
+	                    if (viewport === window) {
+	                        scrollTop = $(window).scrollTop();
+	                        adjustTop = scrollTop + $(window).outerHeight() / 2 - $(dialog).outerHeight() / 2;
+	                    }
+	                    else {
+	                        scrollTop = Number(($(container).css('top').match(/(\d+)/) || [])[1]);
+	                        adjustTop = scrollTop + $(window).outerHeight() / 2 - $(dialog).outerHeight() / 2;
+	                    }
+	                    if (scrollTop > adjustTop || !mergedConfiguration.centering) {
+	                        adjustTop = scrollTop + mergedConfiguration.topMargin;
+	                    }
+	                    if (adjustTop + $(dialog).outerHeight() >= $(container).outerHeight()) {
+	                        adjustTop = adjustTop - (adjustTop + $(dialog).outerHeight() - $(container).outerHeight());
+	                    }
+	                    $(dialog).css('margin-top', adjustTop);
 	                }
 	                adjustMaskHeight();
 	            }
@@ -331,10 +360,12 @@
 	                mergedConfiguration.fitTimerID = setInterval(function () {
 	                    if ($(dialog).outerHeight() + mergedConfiguration.topMargin >= $(container).outerHeight()) {
 	                        $(bg).find(mask).outerHeight($(dialog).outerHeight() + mergedConfiguration.topMargin * 2);
-	                        clearInterval(mergedConfiguration.fitTimerID);
+	                    }
+	                    else {
+	                        $(bg).find(mask).outerHeight($(container).outerHeight());
 	                    }
 	                    timerCounter++;
-	                    if (timerCounter >= 10) {
+	                    if (timerCounter >= 50) {
 	                        clearInterval(mergedConfiguration.fitTimerID);
 	                    }
 	                }, 200);
@@ -394,7 +425,7 @@
 	                configuration = {};
 	            }
 	            var this_ = this;
-	            var mergedConfiguration = $.extend(this_.configuration, configuration);
+	            var mergedConfiguration = $.extend(this_.configuration_, configuration);
 	            var bg = mergedConfiguration.background;
 	            var dialog = mergedConfiguration.dialogID;
 	            $(bg).hide();
