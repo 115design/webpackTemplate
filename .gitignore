@@ -1,0 +1,25 @@
+# node_modules無視
+node_modules/
+
+# typings無視
+typings/
+
+# .sass-cache無視
+.sass-cache/
+
+# logs無視
+logs/*
+tmp/*
+cache/*
+
+# request_test無視
+request_test/
+ 
+# .DS_Store無視
+*/.DS_Store
+ 
+# .scssc無視
+*/*.scssc
+
+# .log無視
+*/*.log
