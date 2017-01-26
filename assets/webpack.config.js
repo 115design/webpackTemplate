@@ -12,7 +12,7 @@ for (var i in scriptFiles) {
   scripts[script.replace(regexp, '').replace(/(\.ts(x|))/gi, '')] = script;
 }
 
-let config = {
+var config = {
   entry: scripts,
   output: {
     path: distDir + '/scripts',

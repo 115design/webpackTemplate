@@ -9,8 +9,8 @@
 
 'use strict';
 
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
  
 interface CommentBoxProps extends React.Props<any> {
   link: string;
@@ -19,12 +19,12 @@ interface CommentBoxProps extends React.Props<any> {
 class CommentBox extends React.Component<any, any> {
   render() {
     return <div className="commentBox">
-        React Sample <a href={this.props.link}>A JAVASCRIPT LIBRARY FOR BUILDING USER INTERFACES</a>
-      </div>;
+              React Sample <a href={this.props.link}>A JAVASCRIPT LIBRARY FOR BUILDING USER INTERFACES</a>
+            </div>;
   }
 }
  
 ReactDOM.render(
     <CommentBox link="https://facebook.github.io/react/" />,
-    document.getElementById("content")
+    document.getElementById('content')
 );

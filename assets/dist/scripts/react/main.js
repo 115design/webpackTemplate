@@ -72,7 +72,7 @@
 	    };
 	    return CommentBox;
 	}(React.Component));
-	ReactDOM.render(React.createElement(CommentBox, {link: "https://facebook.github.io/react/"}), document.getElementById("content"));
+	ReactDOM.render(React.createElement(CommentBox, {link: "https://facebook.github.io/react/"}), document.getElementById('content'));
 
 
 /***/ },

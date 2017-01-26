@@ -10,7 +10,7 @@
     "compress": "gulp imagemin",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "115INDUSTRIES",
+  "author": "SHILI INDUSTRIES",
   "license": "MIT",
   "devDependencies": {
     "browser-sync": "^2.14.3",
