@@ -28,12 +28,13 @@ module.exports = {
     ]
   },
   "server": {
-    "baseDir": "../",
-    "middleware": function(req, res, next){
-        var timestamp = "[" + new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + "] ";
-        console.log(timestamp + req.method + " " + req.originalUrl + " - " +  req.connection.remoteAddress + " - " + req.headers['user-agent']);
-        next();
-    }
+    "baseDir": "../"
+    // ,
+    // "middleware": function(req, res, next){
+    //     var timestamp = "[" + new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + "] ";
+    //     console.log(timestamp + req.method + " " + req.originalUrl + " - " +  req.connection.remoteAddress + " - " + req.headers['user-agent']);
+    //     next();
+    // }
   },
   "proxy": false,
   "port": 3000,
