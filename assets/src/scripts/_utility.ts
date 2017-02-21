@@ -155,19 +155,19 @@ namespace Utility {
       'mask': '.mask',
       'centering': true,
       'topMargin': 15,
-      'tabletThreshold': 1010,
-      'spThreshold': 480,
+      'tabletThreshold': configuration.tbWidth,
+      'spThreshold': configuration.spWidth,
       'fitTimerID': -1
     };
 
-    constructor(configuration: {} = {}) {
+    constructor(option: {} = {}) {
       let this_ = this;
-      $.extend(this_.configuration_, configuration);
+      $.extend(this_.configuration_, option);
     }
 
-    public showDialog(configuration: {} = {}): void {
+    public showDialog(option: {} = {}): void {
       let this_ = this;
-      let mergedConfiguration = $.extend(this_.configuration_, configuration);
+      let mergedConfiguration = $.extend(this_.configuration_, option);
       let viewport = mergedConfiguration.viewport;
       let container = mergedConfiguration.container;
       let bg = mergedConfiguration.background;
@@ -318,9 +318,9 @@ namespace Utility {
       });
     }
 
-    public closeDialog(configuration: {} = {}): void {
+    public closeDialog(option: {} = {}): void {
       let this_ = this;
-      let mergedConfiguration = $.extend(this_.configuration_, configuration);
+      let mergedConfiguration = $.extend(this_.configuration_, option);
 
       let bg = mergedConfiguration.background;
       let dialog = mergedConfiguration.dialogID;

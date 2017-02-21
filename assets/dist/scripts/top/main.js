@@ -269,9 +269,9 @@
 	    *
 	    ------------------------------------------------ */
 	    var DialogOperator = (function () {
-	        function DialogOperator(configuration) {
-	            if (configuration === void 0) {
-	                configuration = {};
+	        function DialogOperator(option) {
+	            if (option === void 0) {
+	                option = {};
 	            }
 	            this.configuration_ = {
 	                'viewport': window,
@@ -281,19 +281,19 @@
 	                'mask': '.mask',
 	                'centering': true,
 	                'topMargin': 15,
-	                'tabletThreshold': 1010,
-	                'spThreshold': 480,
+	                'tabletThreshold': Utility.configuration.tbWidth,
+	                'spThreshold': Utility.configuration.spWidth,
 	                'fitTimerID': -1
 	            };
 	            var this_ = this;
-	            $.extend(this_.configuration_, configuration);
+	            $.extend(this_.configuration_, option);
 	        }
-	        DialogOperator.prototype.showDialog = function (configuration) {
-	            if (configuration === void 0) {
-	                configuration = {};
+	        DialogOperator.prototype.showDialog = function (option) {
+	            if (option === void 0) {
+	                option = {};
 	            }
 	            var this_ = this;
-	            var mergedConfiguration = $.extend(this_.configuration_, configuration);
+	            var mergedConfiguration = $.extend(this_.configuration_, option);
 	            var viewport = mergedConfiguration.viewport;
 	            var container = mergedConfiguration.container;
 	            var bg = mergedConfiguration.background;
@@ -420,12 +420,12 @@
 	                }
 	            });
 	        };
-	        DialogOperator.prototype.closeDialog = function (configuration) {
-	            if (configuration === void 0) {
-	                configuration = {};
+	        DialogOperator.prototype.closeDialog = function (option) {
+	            if (option === void 0) {
+	                option = {};
 	            }
 	            var this_ = this;
-	            var mergedConfiguration = $.extend(this_.configuration_, configuration);
+	            var mergedConfiguration = $.extend(this_.configuration_, option);
 	            var bg = mergedConfiguration.background;
 	            var dialog = mergedConfiguration.dialogID;
 	            $(bg).hide();
