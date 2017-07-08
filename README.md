@@ -5,7 +5,7 @@
 This is Webpack Template.(Webpack/Typescript/React/Sass/Browser-sync/Gulp/Yarn)
 
 ## Recommendation
-npm install は watch 時にCPUの負荷率が異常に高くなる(High CPU Usage)ので　yarn install を推奨(recommend)します。
+npm installはwatch時にCPUの負荷率が異常に高くなる(High CPU Usage)のでyarn installを推奨(recommend)します。
 
 [yarn](https://yarnpkg.com/en/)
 
