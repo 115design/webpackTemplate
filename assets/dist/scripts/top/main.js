@@ -6,21 +6,21 @@
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
 /******/ 		};
 /******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/
 /******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
+/******/ 		module.l = true;
 /******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -33,555 +33,62 @@
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/scripts/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 184);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 0:
+/***/ 184:
 /*!*********************************!*\
   !*** ./src/scripts/top/main.ts ***!
   \*********************************/
-/***/ function(module, exports, __webpack_require__) {
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview top/main.ts
-	 *
-	 * @require  jquery1.8.3.js:above
-	 * @version  1.1.7
-	 * @update   2016/09/23
-	 */
-	/// <reference path="../../../typings/index.d.ts" />
-	'use strict';
-	var _utility_ts_1 = __webpack_require__(/*! ../_utility.ts */ 178);
-	(function (window) {
-	    var windowStatus = new _utility_ts_1.default.WindowStatusOperator();
-	    var dialog = new _utility_ts_1.default.DialogOperator();
-	    $(function () {
-	        function neutralize() {
-	        }
-	        function clear() {
-	        }
-	        function getDirection(e, obj) {
-	            var w = $(obj).width();
-	            var h = $(obj).height();
-	            var x = (e.pageX - $(obj).offset().left - (w / 2)) * (w > h ? (h / w) : 1);
-	            var y = (e.pageY - $(obj).offset().top - (h / 2)) * (h > w ? (w / h) : 1);
-	            var direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
-	            return direction;
-	        }
-	        ;
-	        function getDirectionForSP(e, obj) {
-	            var w = $(obj).width();
-	            var h = $(obj).height();
-	            if (event.touches === void 0) {
-	                event.touches = event.originalEvent.touches;
-	            }
-	            if (event.touches.length === 1) {
-	                var x = (event.touches[0].pageX - $(obj).offset().left - (w / 2)) * (w > h ? (h / w) : 1);
-	                var y = (event.touches[0].pageY - $(obj).offset().top - (h / 2)) * (h > w ? (w / h) : 1);
-	                var direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
-	                return direction;
-	            }
-	            return null;
-	        }
-	        ;
-	        function fit() {
-	            neutralize();
-	            clear();
-	        }
-	        /* ------------------------------------------------
-	        * リサイズ
-	        ------------------------------------------------ */
-	        (function () {
-	            var defaultSize = 1200;
-	            var currentView = null;
-	            var previousView = null;
-	            $(window).on('resize', function () {
-	                if ($(window).outerWidth() < _utility_ts_1.default.configuration.tbWidth) {
-	                    currentView = 'SP';
-	                }
-	                else if ($(window).outerWidth() >= _utility_ts_1.default.configuration.tbWidth && $(window).outerWidth() < _utility_ts_1.default.configuration.pcWidth) {
-	                    currentView = 'TABLET';
-	                }
-	                else {
-	                    currentView = 'PC';
-	                }
-	                if (currentView === 'PC') { }
-	                else if (currentView === 'TABLET') { }
-	                else { }
-	                fit();
-	                if (currentView !== previousView) {
-	                    if (currentView === 'PC') { }
-	                    else if (currentView === 'TABLET') { }
-	                    else { }
-	                    previousView = currentView;
-	                }
-	            });
-	            $(window).trigger('resize');
-	        })();
-	        /* ------------------------------------------------
-	        * オリエンテーションチェンジ
-	        ------------------------------------------------ */
-	        (function () {
-	            var previousStatus = null;
-	            var currentStatus = null;
-	            $(window).on('orientationchange', function () {
-	                if (Math.abs(Number(window.orientation)) === 90) {
-	                    currentStatus = 'horizontal';
-	                }
-	                else {
-	                    currentStatus = 'vertical';
-	                }
-	                if (currentStatus !== previousStatus) {
-	                    previousStatus = currentStatus;
-	                }
-	            });
-	            $(window).trigger('orientationchange');
-	        })();
-	    });
-	}(window));
+"use strict";
+eval("/**\n * @fileoverview top/main.ts\n *\n * @require  jquery1.8.3.js:above\n * @version  1.1.7\n * @update   2016/09/23\n */\n/// <reference path=\"../../../typings/index.d.ts\" />\n\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar _utility_ts_1 = __webpack_require__(/*! ../_utility.ts */ 185);\n(function (window) {\n    var windowStatus = new _utility_ts_1.default.WindowStatusOperator();\n    var dialog = new _utility_ts_1.default.DialogOperator();\n    $(function () {\n        function neutralize() {\n        }\n        function clear() {\n        }\n        function getDirection(e, obj) {\n            var w = $(obj).width();\n            var h = $(obj).height();\n            var x = (e.pageX - $(obj).offset().left - (w / 2)) * (w > h ? (h / w) : 1);\n            var y = (e.pageY - $(obj).offset().top - (h / 2)) * (h > w ? (w / h) : 1);\n            var direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;\n            return direction;\n        }\n        ;\n        function getDirectionForSP(e, obj) {\n            var w = $(obj).width();\n            var h = $(obj).height();\n            if (event.touches === void 0) {\n                event.touches = event.originalEvent.touches;\n            }\n            if (event.touches.length === 1) {\n                var x = (event.touches[0].pageX - $(obj).offset().left - (w / 2)) * (w > h ? (h / w) : 1);\n                var y = (event.touches[0].pageY - $(obj).offset().top - (h / 2)) * (h > w ? (w / h) : 1);\n                var direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;\n                return direction;\n            }\n            return null;\n        }\n        ;\n        function fit() {\n            neutralize();\n            clear();\n        }\n        /* ------------------------------------------------\n        * リサイズ\n        ------------------------------------------------ */\n        (function () {\n            var defaultSize = 1200;\n            var currentView = null;\n            var previousView = null;\n            $(window).on('resize', function () {\n                if ($(window).outerWidth() < _utility_ts_1.default.configuration.tbWidth) {\n                    currentView = 'SP';\n                }\n                else if ($(window).outerWidth() >= _utility_ts_1.default.configuration.tbWidth && $(window).outerWidth() < _utility_ts_1.default.configuration.pcWidth) {\n                    currentView = 'TABLET';\n                }\n                else {\n                    currentView = 'PC';\n                }\n                if (currentView === 'PC') { }\n                else if (currentView === 'TABLET') { }\n                else { }\n                fit();\n                if (currentView !== previousView) {\n                    if (currentView === 'PC') { }\n                    else if (currentView === 'TABLET') { }\n                    else { }\n                    previousView = currentView;\n                }\n            });\n            $(window).trigger('resize');\n        })();\n        /* ------------------------------------------------\n        * オリエンテーションチェンジ\n        ------------------------------------------------ */\n        (function () {\n            var previousStatus = null;\n            var currentStatus = null;\n            $(window).on('orientationchange', function () {\n                if (Math.abs(Number(window.orientation)) === 90) {\n                    currentStatus = 'horizontal';\n                }\n                else {\n                    currentStatus = 'vertical';\n                }\n                if (currentStatus !== previousStatus) {\n                    previousStatus = currentStatus;\n                }\n            });\n            $(window).trigger('orientationchange');\n        })();\n    });\n}(window));\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiMTg0LmpzIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vc3JjL3NjcmlwdHMvdG9wL21haW4udHM/ODAyMSJdLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIEBmaWxlb3ZlcnZpZXcgdG9wL21haW4udHNcbiAqXG4gKiBAcmVxdWlyZSAganF1ZXJ5MS44LjMuanM6YWJvdmVcbiAqIEB2ZXJzaW9uICAxLjEuN1xuICogQHVwZGF0ZSAgIDIwMTYvMDkvMjNcbiAqL1xuLy8vIDxyZWZlcmVuY2UgcGF0aD1cIi4uLy4uLy4uL3R5cGluZ3MvaW5kZXguZC50c1wiIC8+XG4ndXNlIHN0cmljdCc7XG5PYmplY3QuZGVmaW5lUHJvcGVydHkoZXhwb3J0cywgXCJfX2VzTW9kdWxlXCIsIHsgdmFsdWU6IHRydWUgfSk7XG52YXIgX3V0aWxpdHlfdHNfMSA9IHJlcXVpcmUoXCIuLi9fdXRpbGl0eS50c1wiKTtcbihmdW5jdGlvbiAod2luZG93KSB7XG4gICAgdmFyIHdpbmRvd1N0YXR1cyA9IG5ldyBfdXRpbGl0eV90c18xLmRlZmF1bHQuV2luZG93U3RhdHVzT3BlcmF0b3IoKTtcbiAgICB2YXIgZGlhbG9nID0gbmV3IF91dGlsaXR5X3RzXzEuZGVmYXVsdC5EaWFsb2dPcGVyYXRvcigpO1xuICAgICQoZnVuY3Rpb24gKCkge1xuICAgICAgICBmdW5jdGlvbiBuZXV0cmFsaXplKCkge1xuICAgICAgICB9XG4gICAgICAgIGZ1bmN0aW9uIGNsZWFyKCkge1xuICAgICAgICB9XG4gICAgICAgIGZ1bmN0aW9uIGdldERpcmVjdGlvbihlLCBvYmopIHtcbiAgICAgICAgICAgIHZhciB3ID0gJChvYmopLndpZHRoKCk7XG4gICAgICAgICAgICB2YXIgaCA9ICQob2JqKS5oZWlnaHQoKTtcbiAgICAgICAgICAgIHZhciB4ID0gKGUucGFnZVggLSAkKG9iaikub2Zmc2V0KCkubGVmdCAtICh3IC8gMikpICogKHcgPiBoID8gKGggLyB3KSA6IDEpO1xuICAgICAgICAgICAgdmFyIHkgPSAoZS5wYWdlWSAtICQob2JqKS5vZmZzZXQoKS50b3AgLSAoaCAvIDIpKSAqIChoID4gdyA/ICh3IC8gaCkgOiAxKTtcbiAgICAgICAgICAgIHZhciBkaXJlY3Rpb24gPSBNYXRoLnJvdW5kKCgoKE1hdGguYXRhbjIoeSwgeCkgKiAoMTgwIC8gTWF0aC5QSSkpICsgMTgwKSAvIDkwKSArIDMpICUgNDtcbiAgICAgICAgICAgIHJldHVybiBkaXJlY3Rpb247XG4gICAgICAgIH1cbiAgICAgICAgO1xuICAgICAgICBmdW5jdGlvbiBnZXREaXJlY3Rpb25Gb3JTUChlLCBvYmopIHtcbiAgICAgICAgICAgIHZhciB3ID0gJChvYmopLndpZHRoKCk7XG4gICAgICAgICAgICB2YXIgaCA9ICQob2JqKS5oZWlnaHQoKTtcbiAgICAgICAgICAgIGlmIChldmVudC50b3VjaGVzID09PSB2b2lkIDApIHtcbiAgICAgICAgICAgICAgICBldmVudC50b3VjaGVzID0gZXZlbnQub3JpZ2luYWxFdmVudC50b3VjaGVzO1xuICAgICAgICAgICAgfVxuICAgICAgICAgICAgaWYgKGV2ZW50LnRvdWNoZXMubGVuZ3RoID09PSAxKSB7XG4gICAgICAgICAgICAgICAgdmFyIHggPSAoZXZlbnQudG91Y2hlc1swXS5wYWdlWCAtICQob2JqKS5vZmZzZXQoKS5sZWZ0IC0gKHcgLyAyKSkgKiAodyA+IGggPyAoaCAvIHcpIDogMSk7XG4gICAgICAgICAgICAgICAgdmFyIHkgPSAoZXZlbnQudG91Y2hlc1swXS5wYWdlWSAtICQob2JqKS5vZmZzZXQoKS50b3AgLSAoaCAvIDIpKSAqIChoID4gdyA/ICh3IC8gaCkgOiAxKTtcbiAgICAgICAgICAgICAgICB2YXIgZGlyZWN0aW9uID0gTWF0aC5yb3VuZCgoKChNYXRoLmF0YW4yKHksIHgpICogKDE4MCAvIE1hdGguUEkpKSArIDE4MCkgLyA5MCkgKyAzKSAlIDQ7XG4gICAgICAgICAgICAgICAgcmV0dXJuIGRpcmVjdGlvbjtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICAgIHJldHVybiBudWxsO1xuICAgICAgICB9XG4gICAgICAgIDtcbiAgICAgICAgZnVuY3Rpb24gZml0KCkge1xuICAgICAgICAgICAgbmV1dHJhbGl6ZSgpO1xuICAgICAgICAgICAgY2xlYXIoKTtcbiAgICAgICAgfVxuICAgICAgICAvKiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1cbiAgICAgICAgKiDjg6rjgrXjgqTjgrpcbiAgICAgICAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tICovXG4gICAgICAgIChmdW5jdGlvbiAoKSB7XG4gICAgICAgICAgICB2YXIgZGVmYXVsdFNpemUgPSAxMjAwO1xuICAgICAgICAgICAgdmFyIGN1cnJlbnRWaWV3ID0gbnVsbDtcbiAgICAgICAgICAgIHZhciBwcmV2aW91c1ZpZXcgPSBudWxsO1xuICAgICAgICAgICAgJCh3aW5kb3cpLm9uKCdyZXNpemUnLCBmdW5jdGlvbiAoKSB7XG4gICAgICAgICAgICAgICAgaWYgKCQod2luZG93KS5vdXRlcldpZHRoKCkgPCBfdXRpbGl0eV90c18xLmRlZmF1bHQuY29uZmlndXJhdGlvbi50YldpZHRoKSB7XG4gICAgICAgICAgICAgICAgICAgIGN1cnJlbnRWaWV3ID0gJ1NQJztcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgZWxzZSBpZiAoJCh3aW5kb3cpLm91dGVyV2lkdGgoKSA+PSBfdXRpbGl0eV90c18xLmRlZmF1bHQuY29uZmlndXJhdGlvbi50YldpZHRoICYmICQod2luZG93KS5vdXRlcldpZHRoKCkgPCBfdXRpbGl0eV90c18xLmRlZmF1bHQuY29uZmlndXJhdGlvbi5wY1dpZHRoKSB7XG4gICAgICAgICAgICAgICAgICAgIGN1cnJlbnRWaWV3ID0gJ1RBQkxFVCc7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGVsc2Uge1xuICAgICAgICAgICAgICAgICAgICBjdXJyZW50VmlldyA9ICdQQyc7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGlmIChjdXJyZW50VmlldyA9PT0gJ1BDJykgeyB9XG4gICAgICAgICAgICAgICAgZWxzZSBpZiAoY3VycmVudFZpZXcgPT09ICdUQUJMRVQnKSB7IH1cbiAgICAgICAgICAgICAgICBlbHNlIHsgfVxuICAgICAgICAgICAgICAgIGZpdCgpO1xuICAgICAgICAgICAgICAgIGlmIChjdXJyZW50VmlldyAhPT0gcHJldmlvdXNWaWV3KSB7XG4gICAgICAgICAgICAgICAgICAgIGlmIChjdXJyZW50VmlldyA9PT0gJ1BDJykgeyB9XG4gICAgICAgICAgICAgICAgICAgIGVsc2UgaWYgKGN1cnJlbnRWaWV3ID09PSAnVEFCTEVUJykgeyB9XG4gICAgICAgICAgICAgICAgICAgIGVsc2UgeyB9XG4gICAgICAgICAgICAgICAgICAgIHByZXZpb3VzVmlldyA9IGN1cnJlbnRWaWV3O1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgIH0pO1xuICAgICAgICAgICAgJCh3aW5kb3cpLnRyaWdnZXIoJ3Jlc2l6ZScpO1xuICAgICAgICB9KSgpO1xuICAgICAgICAvKiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1cbiAgICAgICAgKiDjgqrjg6rjgqjjg7Pjg4bjg7zjgrfjg6fjg7Pjg4Hjgqfjg7PjgrhcbiAgICAgICAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tICovXG4gICAgICAgIChmdW5jdGlvbiAoKSB7XG4gICAgICAgICAgICB2YXIgcHJldmlvdXNTdGF0dXMgPSBudWxsO1xuICAgICAgICAgICAgdmFyIGN1cnJlbnRTdGF0dXMgPSBudWxsO1xuICAgICAgICAgICAgJCh3aW5kb3cpLm9uKCdvcmllbnRhdGlvbmNoYW5nZScsIGZ1bmN0aW9uICgpIHtcbiAgICAgICAgICAgICAgICBpZiAoTWF0aC5hYnMoTnVtYmVyKHdpbmRvdy5vcmllbnRhdGlvbikpID09PSA5MCkge1xuICAgICAgICAgICAgICAgICAgICBjdXJyZW50U3RhdHVzID0gJ2hvcml6b250YWwnO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBlbHNlIHtcbiAgICAgICAgICAgICAgICAgICAgY3VycmVudFN0YXR1cyA9ICd2ZXJ0aWNhbCc7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGlmIChjdXJyZW50U3RhdHVzICE9PSBwcmV2aW91c1N0YXR1cykge1xuICAgICAgICAgICAgICAgICAgICBwcmV2aW91c1N0YXR1cyA9IGN1cnJlbnRTdGF0dXM7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgfSk7XG4gICAgICAgICAgICAkKHdpbmRvdykudHJpZ2dlcignb3JpZW50YXRpb25jaGFuZ2UnKTtcbiAgICAgICAgfSkoKTtcbiAgICB9KTtcbn0od2luZG93KSk7XG5cblxuXG4vLyBXRUJQQUNLIEZPT1RFUiAvL1xuLy8gLi9ub2RlX21vZHVsZXMvdHMtbG9hZGVyIS4vc3JjL3NjcmlwdHMvdG9wL21haW4udHMiXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7QUFNQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7O0FBRUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTs7QUFFQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTsiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///184\n");
 
+/***/ }),
 
-/***/ },
-
-/***/ 178:
+/***/ 185:
 /*!*********************************!*\
   !*** ./src/scripts/_utility.ts ***!
   \*********************************/
-/***/ function(module, exports) {
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
-	 * @fileoverview _utility.ts
-	 *
-	 * @require  jquery1.8.3.js:above
-	 * @version  1.1.7
-	 * @update   2016/09/04
-	 */
-	/// <reference path="../../typings/index.d.ts" />
-	'use strict';
-	var Utility;
-	(function (Utility) {
-	    /* ------------------------------------------------
-	    *
-	    * CONFIGURATION
-	    *
-	    *
-	    ------------------------------------------------ */
-	    Utility.configuration = {
-	        'pcWidth': 1020,
-	        'tbWidth': 640,
-	        'spWidth': 480,
-	        'defaultFontSize': 100,
-	        'ratio': 0,
-	        'globalScene': '',
-	        'scrollableElement': '',
-	        'animationProgress': {}
-	    };
-	    Utility.configuration.scrollableElement = (function () {
-	        var html = $('html'), top = html.scrollTop();
-	        var elm = $('<div/>').height(10000).prependTo('body');
-	        html.scrollTop(10000);
-	        var rs = !!html.scrollTop();
-	        html.scrollTop(top);
-	        elm.remove();
-	        return rs;
-	    }()) ? 'html' : 'body';
-	    /* ------------------------------------------------
-	    *
-	    * WindowStatusOperator
-	    *
-	    *
-	    ------------------------------------------------ */
-	    var WindowStatusOperator = (function () {
-	        function WindowStatusOperator() {
-	        }
-	        WindowStatusOperator.prototype.android = function () {
-	            return (/Android/i).test(navigator.userAgent);
-	        };
-	        WindowStatusOperator.prototype.blackBerry = function () {
-	            return (/BlackBerry/i).test(navigator.userAgent);
-	        };
-	        WindowStatusOperator.prototype.playBook = function () {
-	            return (/PlayBook/i).test(navigator.userAgent);
-	        };
-	        WindowStatusOperator.prototype.iOS = function () {
-	            return (/iPhone|iPad|iPod/i).test(navigator.userAgent);
-	        };
-	        WindowStatusOperator.prototype.operaPhone = function () {
-	            return (/Opera Mini/i).test(navigator.userAgent);
-	        };
-	        WindowStatusOperator.prototype.windowsPhone = function () {
-	            return (/IEMobile/i).test(navigator.userAgent);
-	        };
-	        WindowStatusOperator.prototype.anyMobile = function () {
-	            var this_ = this;
-	            return (this_.android() || this_.blackBerry() || this_.playBook() || this_.iOS() || this_.operaPhone() || this_.windowsPhone());
-	        };
-	        WindowStatusOperator.prototype.IE = function () {
-	            return ((/(msie|MSIE)/i).test(navigator.userAgent) || (/(T|t)rident/i).test(navigator.userAgent));
-	        };
-	        WindowStatusOperator.prototype.TOUCH = function () {
-	            return (typeof document.ontouchstart !== 'undefined');
-	        };
-	        return WindowStatusOperator;
-	    }());
-	    Utility.WindowStatusOperator = WindowStatusOperator;
-	    /* ------------------------------------------------
-	    *
-	    * StringOperator
-	    *
-	    *
-	    ------------------------------------------------ */
-	    var StringOperator = (function () {
-	        function StringOperator() {
-	        }
-	        StringOperator.prototype.trim = function (targetString, maxNumber, replaceString) {
-	            if (replaceString === void 0) {
-	                replaceString = '...';
-	            }
-	            var trimString;
-	            if (targetString !== null && targetString !== '') {
-	                if (maxNumber < targetString.length) {
-	                    var tempString = targetString.substr(0, maxNumber) + replaceString;
-	                    trimString = tempString;
-	                }
-	                else {
-	                    trimString = targetString;
-	                }
-	                return trimString;
-	            }
-	            else {
-	                return targetString;
-	            }
-	        };
-	        return StringOperator;
-	    }());
-	    Utility.StringOperator = StringOperator;
-	    /* ------------------------------------------------
-	    *
-	    * DialogOperator
-	    *
-	    *
-	    ------------------------------------------------ */
-	    var DialogOperator = (function () {
-	        function DialogOperator(option) {
-	            if (option === void 0) {
-	                option = {};
-	            }
-	            this.configuration_ = {
-	                'viewport': window,
-	                'container': '#container',
-	                'background': '.modal-window-area',
-	                'close': '.modal-close',
-	                'mask': '.mask',
-	                'centering': true,
-	                'topMargin': 15,
-	                'tabletThreshold': Utility.configuration.tbWidth,
-	                'spThreshold': Utility.configuration.spWidth,
-	                'fitTimerID': -1
-	            };
-	            var this_ = this;
-	            $.extend(this_.configuration_, option);
-	        }
-	        DialogOperator.prototype.showDialog = function (option) {
-	            if (option === void 0) {
-	                option = {};
-	            }
-	            var this_ = this;
-	            var mergedConfiguration = $.extend(this_.configuration_, option);
-	            var viewport = mergedConfiguration.viewport;
-	            var container = mergedConfiguration.container;
-	            var bg = mergedConfiguration.background;
-	            var closeBtn = mergedConfiguration.close;
-	            var mask = mergedConfiguration.mask;
-	            var dialog = mergedConfiguration.dialogID;
-	            $(bg).css('visibility', 'hidden').show();
-	            $(dialog).css('visibility', 'hidden').show();
-	            if ($(container).outerHeight() >= $(viewport).outerHeight()) {
-	                $(bg).find(mask).outerHeight($(container).outerHeight());
-	            }
-	            else {
-	                $(bg).find(mask).outerHeight($(viewport).outerHeight());
-	            }
-	            if ($(dialog).outerHeight() + mergedConfiguration.topMargin >= $(viewport).outerHeight()) {
-	                $(container).css('top', 0);
-	                $(dialog).css('margin-top', mergedConfiguration.topMargin);
-	                if ($(dialog).outerHeight() + mergedConfiguration.topMargin >= $(container).outerHeight()) {
-	                    $(bg).find(mask).outerHeight($(dialog).outerHeight() + mergedConfiguration.topMargin * 2);
-	                }
-	                else {
-	                    $(bg).find(mask).outerHeight($(container).outerHeight());
-	                    if (viewport === window) {
-	                        scrollTop = $(window).scrollTop();
-	                        adjustTop = scrollTop + $(window).outerHeight() / 2 - $(dialog).outerHeight() / 2;
-	                    }
-	                    else {
-	                        scrollTop = Number(($(container).css('top').match(/(\d+)/) || [])[1]);
-	                        adjustTop = scrollTop + $(window).outerHeight() / 2 - $(dialog).outerHeight() / 2;
-	                    }
-	                    if (scrollTop > adjustTop || !mergedConfiguration.centering) {
-	                        adjustTop = scrollTop + mergedConfiguration.topMargin;
-	                    }
-	                    if (adjustTop + $(dialog).outerHeight() >= $(container).outerHeight()) {
-	                        adjustTop = adjustTop - (adjustTop + $(dialog).outerHeight() - $(container).outerHeight());
-	                    }
-	                    $(dialog).css('margin-top', adjustTop);
-	                }
-	                adjustMaskHeight();
-	            }
-	            else {
-	                var adjustTop = void 0;
-	                var scrollTop = void 0;
-	                if (viewport === window) {
-	                    scrollTop = $(window).scrollTop();
-	                    adjustTop = scrollTop + $(window).outerHeight() / 2 - $(dialog).outerHeight() / 2;
-	                }
-	                else {
-	                    scrollTop = Number(($(container).css('top').match(/(\d+)/) || [])[1]);
-	                    adjustTop = scrollTop + $(window).outerHeight() / 2 - $(dialog).outerHeight() / 2;
-	                }
-	                if (scrollTop > adjustTop || !mergedConfiguration.centering) {
-	                    adjustTop = scrollTop + mergedConfiguration.topMargin;
-	                }
-	                $(dialog).css('margin-top', adjustTop);
-	            }
-	            if (typeof mergedConfiguration.onOpened === 'function') {
-	                mergedConfiguration.onOpened(mergedConfiguration.topMargin * 2);
-	            }
-	            $(bg).css('visibility', 'visible').hide().fadeIn(400);
-	            $(dialog).css('visibility', 'visible');
-	            function adjustMaskHeight() {
-	                var timerCounter = 0;
-	                mergedConfiguration.fitTimerID = setInterval(function () {
-	                    if ($(dialog).outerHeight() + mergedConfiguration.topMargin >= $(container).outerHeight()) {
-	                        $(bg).find(mask).outerHeight($(dialog).outerHeight() + mergedConfiguration.topMargin * 2);
-	                    }
-	                    else {
-	                        $(bg).find(mask).outerHeight($(container).outerHeight());
-	                    }
-	                    timerCounter++;
-	                    if (timerCounter >= 50) {
-	                        clearInterval(mergedConfiguration.fitTimerID);
-	                    }
-	                }, 200);
-	            }
-	            var currentView;
-	            var previousView;
-	            $(window).off('resize.dialog');
-	            $(window).on('resize.dialog', function (event) {
-	                if ($(viewport).outerWidth() > mergedConfiguration.tabletThreshold) {
-	                    currentView = 'PC';
-	                }
-	                else if ($(viewport).outerWidth() <= mergedConfiguration.tabletThreshold &&
-	                    $(viewport).outerWidth() > mergedConfiguration.spThreshold) {
-	                    currentView = 'TABLET';
-	                }
-	                else {
-	                    currentView = 'SP';
-	                }
-	                $(bg).find(mask).outerHeight($(container).outerHeight());
-	                if (currentView !== previousView) {
-	                    if ($(dialog).offset().top + $(dialog).outerHeight() >= $(container).outerHeight()) {
-	                        var adjustTop = $(container).outerHeight() - $(dialog).outerHeight() * 1.2;
-	                        $(dialog).css('margin-top', adjustTop);
-	                        if ($(dialog).outerHeight() + mergedConfiguration.topMargin >= $(container).outerHeight()) {
-	                            $(dialog).css('margin-top', mergedConfiguration.topMargin);
-	                            $(bg).find(mask).outerHeight($(dialog).outerHeight() + mergedConfiguration.topMargin * 2);
-	                        }
-	                    }
-	                    adjustMaskHeight();
-	                    previousView = currentView;
-	                }
-	            });
-	            $(dialog).find(closeBtn).off('click');
-	            $(dialog).find(closeBtn).on('click', function (event) {
-	                event.preventDefault();
-	                $(bg).hide();
-	                $(dialog).hide();
-	                $(window).off('resize.dialog');
-	                clearInterval(mergedConfiguration.fitTimerID);
-	                if (typeof mergedConfiguration.onClosed === 'function') {
-	                    mergedConfiguration.onClosed();
-	                }
-	            });
-	            $(bg).find(mask).off('click');
-	            $(bg).find(mask).on('click', function () {
-	                $(bg).hide();
-	                $(dialog).hide();
-	                $(window).off('resize.dialog');
-	                clearInterval(mergedConfiguration.fitTimerID);
-	                if (typeof mergedConfiguration.onClosed === 'function') {
-	                    mergedConfiguration.onClosed();
-	                }
-	            });
-	        };
-	        DialogOperator.prototype.closeDialog = function (option) {
-	            if (option === void 0) {
-	                option = {};
-	            }
-	            var this_ = this;
-	            var mergedConfiguration = $.extend(this_.configuration_, option);
-	            var bg = mergedConfiguration.background;
-	            var dialog = mergedConfiguration.dialogID;
-	            $(bg).hide();
-	            $(dialog).hide();
-	            $(window).off('resize.dialog');
-	            clearInterval(mergedConfiguration.fitTimerID);
-	            if (typeof mergedConfiguration.onClosed === 'function') {
-	                mergedConfiguration.onClosed();
-	            }
-	        };
-	        return DialogOperator;
-	    }());
-	    Utility.DialogOperator = DialogOperator;
-	    /* ------------------------------------------------
-	    *
-	    * CustomFunction
-	    *
-	    *
-	    ------------------------------------------------ */
-	    var CustomFunction = (function () {
-	        function CustomFunction() {
-	        }
-	        CustomFunction.prototype.getData = function (url) {
-	            var deferredObject = $.Deferred();
-	            $.ajax({
-	                url: url,
-	                dataType: 'json',
-	                cache: false,
-	                success: function (data) {
-	                    deferredObject.resolve(data);
-	                },
-	                error: deferredObject.reject
-	            });
-	            return deferredObject.promise();
-	        };
-	        CustomFunction.prototype.isArray = function (obj) {
-	            return !(!obj ||
-	                (!obj.length || obj.length === 0) ||
-	                typeof obj !== 'object' ||
-	                !obj.constructor ||
-	                obj.nodeType ||
-	                obj.item);
-	        };
-	        CustomFunction.prototype.stringify = function (obj) {
-	            var this_ = this;
-	            var t = typeof (obj);
-	            var formatString;
-	            if (t !== "object" || obj === null) {
-	                if (t === "string") {
-	                    formatString = '"' + obj + '"';
-	                }
-	                return String(formatString);
-	            }
-	            else {
-	                var n = void 0, v = void 0, json = [];
-	                var arr = (obj && this_.isArray(obj));
-	                for (n in obj) {
-	                    v = obj[n];
-	                    t = typeof (v);
-	                    if (obj.hasOwnProperty(n)) {
-	                        if (t === "string") {
-	                            v = '"' + v + '"';
-	                        }
-	                        else if (t === "object" && v !== null) {
-	                            v = this_.stringify(v);
-	                        }
-	                        json.push((arr ? "" : '"' + n + '":') + String(v));
-	                    }
-	                }
-	                return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
-	            }
-	        };
-	        return CustomFunction;
-	    }());
-	    Utility.CustomFunction = CustomFunction;
-	})(Utility || (Utility = {}));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Utility;
-	/* ------------------------------------------------
-	* ベンダー
-	------------------------------------------------ */
-	/* ------------------------------------------------
-	* Alias requestAnimationFrame / cancelAnimationFrame
-	* function loop() {
-	*   timerID = requestAnimFrame(loop);
-	* }
-	* cancelRequestAnimFrame(timerID);
-	------------------------------------------------ */
-	(function () {
-	    var lastTime = 0;
-	    var vendors = ['ms', 'moz', 'webkit', 'o'];
-	    for (var x = 0, limit = vendors.length; x < limit && !window.requestAnimationFrame; ++x) {
-	        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-	        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
-	    }
-	    if (!window.requestAnimationFrame) {
-	        window.requestAnimationFrame = function (callback) {
-	            var currTime = new Date().getTime();
-	            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-	            var id = window.setTimeout(function () {
-	                callback(currTime + timeToCall);
-	            }, timeToCall);
-	            lastTime = currTime + timeToCall;
-	            return id;
-	        };
-	    }
-	    if (!window.cancelAnimationFrame) {
-	        window.cancelAnimationFrame = function (id) {
-	            clearTimeout(id);
-	        };
-	    }
-	    window.requestAnimFrame = window.requestAnimationFrame;
-	    window.cancelRequestAnimFrame = window.cancelAnimationFrame;
-	})();
-	/* ------------------------------------------------
-	* 共通イベント
-	------------------------------------------------ */
-	(function () {
-	    var windowStatus = new Utility.WindowStatusOperator();
-	    $(function () {
-	        // スクロール
-	        $('a[href^="#"]').not('.no-scroll').click(function () {
-	            var speed = 800;
-	            var href = $(this).attr('href');
-	            var target = $(href === '#' || href === '' ? 'html' : href);
-	            if (target[0]) {
-	                var position = target.offset().top;
-	                Utility.configuration.animationProgress['scroll'] = true;
-	                $(Utility.configuration.scrollableElement).stop().animate({
-	                    scrollTop: position
-	                }, speed, 'swing', function () {
-	                    Utility.configuration.animationProgress['scroll'] = false;
-	                });
-	            }
-	            return false;
-	        });
-	        // ホバー
-	        if (!windowStatus.anyMobile()) {
-	            $(window).on('pseudoHover', function () {
-	                var targetElementClass = '.element-hover';
-	                $(targetElementClass).off('mouseenter.pseudoHover');
-	                $(targetElementClass).off('mouseleave.pseudoHover');
-	                $(targetElementClass).on('mouseenter.pseudoHover', function () {
-	                    $(this).addClass('pseudo-hover');
-	                })
-	                    .on('mouseleave.pseudoHover', function () {
-	                    $(this).removeClass('pseudo-hover');
-	                });
-	            });
-	            $(window).trigger('pseudoHover');
-	        }
-	    });
-	}());
+"use strict";
+eval("/**\n * @fileoverview _utility.ts\n *\n * @require  jquery1.8.3.js:above\n * @version  1.1.7\n * @update   2016/09/04\n */\n/// <reference path=\"../../typings/index.d.ts\" />\n\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar Utility;\n(function (Utility) {\n    /* ------------------------------------------------\n    *\n    * CONFIGURATION\n    *\n    *\n    ------------------------------------------------ */\n    Utility.configuration = {\n        'pcWidth': 1020,\n        'tbWidth': 640,\n        'spWidth': 480,\n        'defaultFontSize': 100,\n        'ratio': 0,\n        'globalScene': '',\n        'scrollableElement': '',\n        'animationProgress': {}\n    };\n    Utility.configuration.scrollableElement = (function () {\n        var html = $('html'), top = html.scrollTop();\n        var elm = $('<div/>').height(10000).prependTo('body');\n        html.scrollTop(10000);\n        var rs = !!html.scrollTop();\n        html.scrollTop(top);\n        elm.remove();\n        return rs;\n    }()) ? 'html' : 'body';\n    /* ------------------------------------------------\n    *\n    * WindowStatusOperator\n    *\n    *\n    ------------------------------------------------ */\n    var WindowStatusOperator = (function () {\n        function WindowStatusOperator() {\n        }\n        WindowStatusOperator.prototype.android = function () {\n            return (/Android/i).test(navigator.userAgent);\n        };\n        WindowStatusOperator.prototype.blackBerry = function () {\n            return (/BlackBerry/i).test(navigator.userAgent);\n        };\n        WindowStatusOperator.prototype.playBook = function () {\n            return (/PlayBook/i).test(navigator.userAgent);\n        };\n        WindowStatusOperator.prototype.iOS = function () {\n            return (/iPhone|iPad|iPod/i).test(navigator.userAgent);\n        };\n        WindowStatusOperator.prototype.operaPhone = function () {\n            return (/Opera Mini/i).test(navigator.userAgent);\n        };\n        WindowStatusOperator.prototype.windowsPhone = function () {\n            return (/IEMobile/i).test(navigator.userAgent);\n        };\n        WindowStatusOperator.prototype.anyMobile = function () {\n            var this_ = this;\n            return (this_.android() || this_.blackBerry() || this_.playBook() || this_.iOS() || this_.operaPhone() || this_.windowsPhone());\n        };\n        WindowStatusOperator.prototype.IE = function () {\n            return ((/(msie|MSIE)/i).test(navigator.userAgent) || (/(T|t)rident/i).test(navigator.userAgent));\n        };\n        WindowStatusOperator.prototype.TOUCH = function () {\n            return (typeof document.ontouchstart !== 'undefined');\n        };\n        return WindowStatusOperator;\n    }());\n    Utility.WindowStatusOperator = WindowStatusOperator;\n    /* ------------------------------------------------\n    *\n    * StringOperator\n    *\n    *\n    ------------------------------------------------ */\n    var StringOperator = (function () {\n        function StringOperator() {\n        }\n        StringOperator.prototype.trim = function (targetString, maxNumber, replaceString) {\n            if (replaceString === void 0) {\n                replaceString = '...';\n            }\n            var trimString;\n            if (targetString !== null && targetString !== '') {\n                if (maxNumber < targetString.length) {\n                    var tempString = targetString.substr(0, maxNumber) + replaceString;\n                    trimString = tempString;\n                }\n                else {\n                    trimString = targetString;\n                }\n                return trimString;\n            }\n            else {\n                return targetString;\n            }\n        };\n        return StringOperator;\n    }());\n    Utility.StringOperator = StringOperator;\n    /* ------------------------------------------------\n    *\n    * DialogOperator\n    *\n    *\n    ------------------------------------------------ */\n    var DialogOperator = (function () {\n        function DialogOperator(option) {\n            if (option === void 0) {\n                option = {};\n            }\n            this.configuration_ = {\n                'viewport': window,\n                'container': '#container',\n                'background': '.modal-window-area',\n                'close': '.modal-close',\n                'mask': '.mask',\n                'centering': true,\n                'topMargin': 15,\n                'tabletThreshold': Utility.configuration.tbWidth,\n                'spThreshold': Utility.configuration.spWidth,\n                'fitTimerID': -1\n            };\n            var this_ = this;\n            $.extend(this_.configuration_, option);\n        }\n        DialogOperator.prototype.showDialog = function (option) {\n            if (option === void 0) {\n                option = {};\n            }\n            var this_ = this;\n            var mergedConfiguration = $.extend(this_.configuration_, option);\n            var viewport = mergedConfiguration.viewport;\n            var container = mergedConfiguration.container;\n            var bg = mergedConfiguration.background;\n            var closeBtn = mergedConfiguration.close;\n            var mask = mergedConfiguration.mask;\n            var dialog = mergedConfiguration.dialogID;\n            $(bg).css('visibility', 'hidden').show();\n            $(dialog).css('visibility', 'hidden').show();\n            if ($(container).outerHeight() >= $(viewport).outerHeight()) {\n                $(bg).find(mask).outerHeight($(container).outerHeight());\n            }\n            else {\n                $(bg).find(mask).outerHeight($(viewport).outerHeight());\n            }\n            if ($(dialog).outerHeight() + mergedConfiguration.topMargin >= $(viewport).outerHeight()) {\n                $(container).css('top', 0);\n                $(dialog).css('margin-top', mergedConfiguration.topMargin);\n                if ($(dialog).outerHeight() + mergedConfiguration.topMargin >= $(container).outerHeight()) {\n                    $(bg).find(mask).outerHeight($(dialog).outerHeight() + mergedConfiguration.topMargin * 2);\n                }\n                else {\n                    $(bg).find(mask).outerHeight($(container).outerHeight());\n                    if (viewport === window) {\n                        scrollTop = $(window).scrollTop();\n                        adjustTop = scrollTop + $(window).outerHeight() / 2 - $(dialog).outerHeight() / 2;\n                    }\n                    else {\n                        scrollTop = Number(($(container).css('top').match(/(\\d+)/) || [])[1]);\n                        adjustTop = scrollTop + $(window).outerHeight() / 2 - $(dialog).outerHeight() / 2;\n                    }\n                    if (scrollTop > adjustTop || !mergedConfiguration.centering) {\n                        adjustTop = scrollTop + mergedConfiguration.topMargin;\n                    }\n                    if (adjustTop + $(dialog).outerHeight() >= $(container).outerHeight()) {\n                        adjustTop = adjustTop - (adjustTop + $(dialog).outerHeight() - $(container).outerHeight());\n                    }\n                    $(dialog).css('margin-top', adjustTop);\n                }\n                adjustMaskHeight();\n            }\n            else {\n                var adjustTop = void 0;\n                var scrollTop = void 0;\n                if (viewport === window) {\n                    scrollTop = $(window).scrollTop();\n                    adjustTop = scrollTop + $(window).outerHeight() / 2 - $(dialog).outerHeight() / 2;\n                }\n                else {\n                    scrollTop = Number(($(container).css('top').match(/(\\d+)/) || [])[1]);\n                    adjustTop = scrollTop + $(window).outerHeight() / 2 - $(dialog).outerHeight() / 2;\n                }\n                if (scrollTop > adjustTop || !mergedConfiguration.centering) {\n                    adjustTop = scrollTop + mergedConfiguration.topMargin;\n                }\n                $(dialog).css('margin-top', adjustTop);\n            }\n            if (typeof mergedConfiguration.onOpened === 'function') {\n                mergedConfiguration.onOpened(mergedConfiguration.topMargin * 2);\n            }\n            $(bg).css('visibility', 'visible').hide().fadeIn(400);\n            $(dialog).css('visibility', 'visible');\n            function adjustMaskHeight() {\n                var timerCounter = 0;\n                mergedConfiguration.fitTimerID = setInterval(function () {\n                    if ($(dialog).outerHeight() + mergedConfiguration.topMargin >= $(container).outerHeight()) {\n                        $(bg).find(mask).outerHeight($(dialog).outerHeight() + mergedConfiguration.topMargin * 2);\n                        // clearInterval(mergedConfiguration.fitTimerID);\n                    }\n                    else {\n                        $(bg).find(mask).outerHeight($(container).outerHeight());\n                    }\n                    timerCounter++;\n                    if (timerCounter >= 50) {\n                        clearInterval(mergedConfiguration.fitTimerID);\n                    }\n                }, 200);\n            }\n            var currentView;\n            var previousView;\n            $(window).off('resize.dialog');\n            $(window).on('resize.dialog', function (event) {\n                if ($(viewport).outerWidth() > mergedConfiguration.tabletThreshold) {\n                    currentView = 'PC';\n                }\n                else if ($(viewport).outerWidth() <= mergedConfiguration.tabletThreshold &&\n                    $(viewport).outerWidth() > mergedConfiguration.spThreshold) {\n                    currentView = 'TABLET';\n                }\n                else {\n                    currentView = 'SP';\n                }\n                $(bg).find(mask).outerHeight($(container).outerHeight());\n                if (currentView !== previousView) {\n                    if ($(dialog).offset().top + $(dialog).outerHeight() >= $(container).outerHeight()) {\n                        var adjustTop = $(container).outerHeight() - $(dialog).outerHeight() * 1.2;\n                        $(dialog).css('margin-top', adjustTop);\n                        if ($(dialog).outerHeight() + mergedConfiguration.topMargin >= $(container).outerHeight()) {\n                            $(dialog).css('margin-top', mergedConfiguration.topMargin);\n                            $(bg).find(mask).outerHeight($(dialog).outerHeight() + mergedConfiguration.topMargin * 2);\n                        }\n                    }\n                    adjustMaskHeight();\n                    previousView = currentView;\n                }\n            });\n            $(dialog).find(closeBtn).off('click');\n            $(dialog).find(closeBtn).on('click', function (event) {\n                event.preventDefault();\n                $(bg).hide();\n                $(dialog).hide();\n                $(window).off('resize.dialog');\n                clearInterval(mergedConfiguration.fitTimerID);\n                if (typeof mergedConfiguration.onClosed === 'function') {\n                    mergedConfiguration.onClosed();\n                }\n            });\n            $(bg).find(mask).off('click');\n            $(bg).find(mask).on('click', function () {\n                $(bg).hide();\n                $(dialog).hide();\n                $(window).off('resize.dialog');\n                clearInterval(mergedConfiguration.fitTimerID);\n                if (typeof mergedConfiguration.onClosed === 'function') {\n                    mergedConfiguration.onClosed();\n                }\n            });\n        };\n        DialogOperator.prototype.closeDialog = function (option) {\n            if (option === void 0) {\n                option = {};\n            }\n            var this_ = this;\n            var mergedConfiguration = $.extend(this_.configuration_, option);\n            var bg = mergedConfiguration.background;\n            var dialog = mergedConfiguration.dialogID;\n            $(bg).hide();\n            $(dialog).hide();\n            $(window).off('resize.dialog');\n            clearInterval(mergedConfiguration.fitTimerID);\n            if (typeof mergedConfiguration.onClosed === 'function') {\n                mergedConfiguration.onClosed();\n            }\n        };\n        return DialogOperator;\n    }());\n    Utility.DialogOperator = DialogOperator;\n    /* ------------------------------------------------\n    *\n    * CustomFunction\n    *\n    *\n    ------------------------------------------------ */\n    var CustomFunction = (function () {\n        function CustomFunction() {\n        }\n        CustomFunction.prototype.getData = function (url) {\n            var deferredObject = $.Deferred();\n            $.ajax({\n                url: url,\n                dataType: 'json',\n                cache: false,\n                success: function (data) {\n                    deferredObject.resolve(data);\n                },\n                error: deferredObject.reject\n            });\n            return deferredObject.promise();\n        };\n        CustomFunction.prototype.isArray = function (obj) {\n            return !(!obj ||\n                (!obj.length || obj.length === 0) ||\n                typeof obj !== 'object' ||\n                !obj.constructor ||\n                obj.nodeType ||\n                obj.item);\n        };\n        CustomFunction.prototype.stringify = function (obj) {\n            var this_ = this;\n            var t = typeof (obj);\n            var formatString;\n            if (t !== \"object\" || obj === null) {\n                if (t === \"string\") {\n                    formatString = '\"' + obj + '\"';\n                }\n                return String(formatString);\n            }\n            else {\n                var n = void 0, v = void 0, json = [];\n                var arr = (obj && this_.isArray(obj));\n                for (n in obj) {\n                    v = obj[n];\n                    t = typeof (v);\n                    if (obj.hasOwnProperty(n)) {\n                        if (t === \"string\") {\n                            v = '\"' + v + '\"';\n                        }\n                        else if (t === \"object\" && v !== null) {\n                            v = this_.stringify(v);\n                        }\n                        json.push((arr ? \"\" : '\"' + n + '\":') + String(v));\n                    }\n                }\n                return (arr ? \"[\" : \"{\") + String(json) + (arr ? \"]\" : \"}\");\n            }\n        };\n        return CustomFunction;\n    }());\n    Utility.CustomFunction = CustomFunction;\n})(Utility || (Utility = {}));\nexports.default = Utility;\n/* ------------------------------------------------\n* ベンダー\n------------------------------------------------ */\n/* ------------------------------------------------\n* Alias requestAnimationFrame / cancelAnimationFrame\n* function loop() {\n*   timerID = requestAnimFrame(loop);\n* }\n* cancelRequestAnimFrame(timerID);\n------------------------------------------------ */\n(function () {\n    var lastTime = 0;\n    var vendors = ['ms', 'moz', 'webkit', 'o'];\n    for (var x = 0, limit = vendors.length; x < limit && !window.requestAnimationFrame; ++x) {\n        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];\n        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];\n    }\n    if (!window.requestAnimationFrame) {\n        window.requestAnimationFrame = function (callback) {\n            var currTime = new Date().getTime();\n            var timeToCall = Math.max(0, 16 - (currTime - lastTime));\n            var id = window.setTimeout(function () {\n                callback(currTime + timeToCall);\n            }, timeToCall);\n            lastTime = currTime + timeToCall;\n            return id;\n        };\n    }\n    if (!window.cancelAnimationFrame) {\n        window.cancelAnimationFrame = function (id) {\n            clearTimeout(id);\n        };\n    }\n    window.requestAnimFrame = window.requestAnimationFrame;\n    window.cancelRequestAnimFrame = window.cancelAnimationFrame;\n})();\n/* ------------------------------------------------\n* 共通イベント\n------------------------------------------------ */\n(function () {\n    var windowStatus = new Utility.WindowStatusOperator();\n    $(function () {\n        // スクロール\n        $('a[href^=\"#\"]').not('.no-scroll').click(function () {\n            var speed = 800;\n            var href = $(this).attr('href');\n            var target = $(href === '#' || href === '' ? 'html' : href);\n            if (target[0]) {\n                var position = target.offset().top;\n                Utility.configuration.animationProgress['scroll'] = true;\n                $(Utility.configuration.scrollableElement).stop().animate({\n                    scrollTop: position\n                }, speed, 'swing', function () {\n                    Utility.configuration.animationProgress['scroll'] = false;\n                });\n            }\n            return false;\n        });\n        // ホバー\n        if (!windowStatus.anyMobile()) {\n            $(window).on('pseudoHover', function () {\n                var targetElementClass = '.element-hover';\n                $(targetElementClass).off('mouseenter.pseudoHover');\n                $(targetElementClass).off('mouseleave.pseudoHover');\n                $(targetElementClass).on('mouseenter.pseudoHover', function () {\n                    $(this).addClass('pseudo-hover');\n                })\n                    .on('mouseleave.pseudoHover', function () {\n                    $(this).removeClass('pseudo-hover');\n                });\n            });\n            $(window).trigger('pseudoHover');\n        }\n    });\n}());\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiMTg1LmpzIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vc3JjL3NjcmlwdHMvX3V0aWxpdHkudHM/NTQ0NCJdLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIEBmaWxlb3ZlcnZpZXcgX3V0aWxpdHkudHNcbiAqXG4gKiBAcmVxdWlyZSAganF1ZXJ5MS44LjMuanM6YWJvdmVcbiAqIEB2ZXJzaW9uICAxLjEuN1xuICogQHVwZGF0ZSAgIDIwMTYvMDkvMDRcbiAqL1xuLy8vIDxyZWZlcmVuY2UgcGF0aD1cIi4uLy4uL3R5cGluZ3MvaW5kZXguZC50c1wiIC8+XG4ndXNlIHN0cmljdCc7XG5PYmplY3QuZGVmaW5lUHJvcGVydHkoZXhwb3J0cywgXCJfX2VzTW9kdWxlXCIsIHsgdmFsdWU6IHRydWUgfSk7XG52YXIgVXRpbGl0eTtcbihmdW5jdGlvbiAoVXRpbGl0eSkge1xuICAgIC8qIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVxuICAgICpcbiAgICAqIENPTkZJR1VSQVRJT05cbiAgICAqXG4gICAgKlxuICAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAqL1xuICAgIFV0aWxpdHkuY29uZmlndXJhdGlvbiA9IHtcbiAgICAgICAgJ3BjV2lkdGgnOiAxMDIwLFxuICAgICAgICAndGJXaWR0aCc6IDY0MCxcbiAgICAgICAgJ3NwV2lkdGgnOiA0ODAsXG4gICAgICAgICdkZWZhdWx0Rm9udFNpemUnOiAxMDAsXG4gICAgICAgICdyYXRpbyc6IDAsXG4gICAgICAgICdnbG9iYWxTY2VuZSc6ICcnLFxuICAgICAgICAnc2Nyb2xsYWJsZUVsZW1lbnQnOiAnJyxcbiAgICAgICAgJ2FuaW1hdGlvblByb2dyZXNzJzoge31cbiAgICB9O1xuICAgIFV0aWxpdHkuY29uZmlndXJhdGlvbi5zY3JvbGxhYmxlRWxlbWVudCA9IChmdW5jdGlvbiAoKSB7XG4gICAgICAgIHZhciBodG1sID0gJCgnaHRtbCcpLCB0b3AgPSBodG1sLnNjcm9sbFRvcCgpO1xuICAgICAgICB2YXIgZWxtID0gJCgnPGRpdi8+JykuaGVpZ2h0KDEwMDAwKS5wcmVwZW5kVG8oJ2JvZHknKTtcbiAgICAgICAgaHRtbC5zY3JvbGxUb3AoMTAwMDApO1xuICAgICAgICB2YXIgcnMgPSAhIWh0bWwuc2Nyb2xsVG9wKCk7XG4gICAgICAgIGh0bWwuc2Nyb2xsVG9wKHRvcCk7XG4gICAgICAgIGVsbS5yZW1vdmUoKTtcbiAgICAgICAgcmV0dXJuIHJzO1xuICAgIH0oKSkgPyAnaHRtbCcgOiAnYm9keSc7XG4gICAgLyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tXG4gICAgKlxuICAgICogV2luZG93U3RhdHVzT3BlcmF0b3JcbiAgICAqXG4gICAgKlxuICAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAqL1xuICAgIHZhciBXaW5kb3dTdGF0dXNPcGVyYXRvciA9IChmdW5jdGlvbiAoKSB7XG4gICAgICAgIGZ1bmN0aW9uIFdpbmRvd1N0YXR1c09wZXJhdG9yKCkge1xuICAgICAgICB9XG4gICAgICAgIFdpbmRvd1N0YXR1c09wZXJhdG9yLnByb3RvdHlwZS5hbmRyb2lkID0gZnVuY3Rpb24gKCkge1xuICAgICAgICAgICAgcmV0dXJuICgvQW5kcm9pZC9pKS50ZXN0KG5hdmlnYXRvci51c2VyQWdlbnQpO1xuICAgICAgICB9O1xuICAgICAgICBXaW5kb3dTdGF0dXNPcGVyYXRvci5wcm90b3R5cGUuYmxhY2tCZXJyeSA9IGZ1bmN0aW9uICgpIHtcbiAgICAgICAgICAgIHJldHVybiAoL0JsYWNrQmVycnkvaSkudGVzdChuYXZpZ2F0b3IudXNlckFnZW50KTtcbiAgICAgICAgfTtcbiAgICAgICAgV2luZG93U3RhdHVzT3BlcmF0b3IucHJvdG90eXBlLnBsYXlCb29rID0gZnVuY3Rpb24gKCkge1xuICAgICAgICAgICAgcmV0dXJuICgvUGxheUJvb2svaSkudGVzdChuYXZpZ2F0b3IudXNlckFnZW50KTtcbiAgICAgICAgfTtcbiAgICAgICAgV2luZG93U3RhdHVzT3BlcmF0b3IucHJvdG90eXBlLmlPUyA9IGZ1bmN0aW9uICgpIHtcbiAgICAgICAgICAgIHJldHVybiAoL2lQaG9uZXxpUGFkfGlQb2QvaSkudGVzdChuYXZpZ2F0b3IudXNlckFnZW50KTtcbiAgICAgICAgfTtcbiAgICAgICAgV2luZG93U3RhdHVzT3BlcmF0b3IucHJvdG90eXBlLm9wZXJhUGhvbmUgPSBmdW5jdGlvbiAoKSB7XG4gICAgICAgICAgICByZXR1cm4gKC9PcGVyYSBNaW5pL2kpLnRlc3QobmF2aWdhdG9yLnVzZXJBZ2VudCk7XG4gICAgICAgIH07XG4gICAgICAgIFdpbmRvd1N0YXR1c09wZXJhdG9yLnByb3RvdHlwZS53aW5kb3dzUGhvbmUgPSBmdW5jdGlvbiAoKSB7XG4gICAgICAgICAgICByZXR1cm4gKC9JRU1vYmlsZS9pKS50ZXN0KG5hdmlnYXRvci51c2VyQWdlbnQpO1xuICAgICAgICB9O1xuICAgICAgICBXaW5kb3dTdGF0dXNPcGVyYXRvci5wcm90b3R5cGUuYW55TW9iaWxlID0gZnVuY3Rpb24gKCkge1xuICAgICAgICAgICAgdmFyIHRoaXNfID0gdGhpcztcbiAgICAgICAgICAgIHJldHVybiAodGhpc18uYW5kcm9pZCgpIHx8IHRoaXNfLmJsYWNrQmVycnkoKSB8fCB0aGlzXy5wbGF5Qm9vaygpIHx8IHRoaXNfLmlPUygpIHx8IHRoaXNfLm9wZXJhUGhvbmUoKSB8fCB0aGlzXy53aW5kb3dzUGhvbmUoKSk7XG4gICAgICAgIH07XG4gICAgICAgIFdpbmRvd1N0YXR1c09wZXJhdG9yLnByb3RvdHlwZS5JRSA9IGZ1bmN0aW9uICgpIHtcbiAgICAgICAgICAgIHJldHVybiAoKC8obXNpZXxNU0lFKS9pKS50ZXN0KG5hdmlnYXRvci51c2VyQWdlbnQpIHx8ICgvKFR8dClyaWRlbnQvaSkudGVzdChuYXZpZ2F0b3IudXNlckFnZW50KSk7XG4gICAgICAgIH07XG4gICAgICAgIFdpbmRvd1N0YXR1c09wZXJhdG9yLnByb3RvdHlwZS5UT1VDSCA9IGZ1bmN0aW9uICgpIHtcbiAgICAgICAgICAgIHJldHVybiAodHlwZW9mIGRvY3VtZW50Lm9udG91Y2hzdGFydCAhPT0gJ3VuZGVmaW5lZCcpO1xuICAgICAgICB9O1xuICAgICAgICByZXR1cm4gV2luZG93U3RhdHVzT3BlcmF0b3I7XG4gICAgfSgpKTtcbiAgICBVdGlsaXR5LldpbmRvd1N0YXR1c09wZXJhdG9yID0gV2luZG93U3RhdHVzT3BlcmF0b3I7XG4gICAgLyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tXG4gICAgKlxuICAgICogU3RyaW5nT3BlcmF0b3JcbiAgICAqXG4gICAgKlxuICAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAqL1xuICAgIHZhciBTdHJpbmdPcGVyYXRvciA9IChmdW5jdGlvbiAoKSB7XG4gICAgICAgIGZ1bmN0aW9uIFN0cmluZ09wZXJhdG9yKCkge1xuICAgICAgICB9XG4gICAgICAgIFN0cmluZ09wZXJhdG9yLnByb3RvdHlwZS50cmltID0gZnVuY3Rpb24gKHRhcmdldFN0cmluZywgbWF4TnVtYmVyLCByZXBsYWNlU3RyaW5nKSB7XG4gICAgICAgICAgICBpZiAocmVwbGFjZVN0cmluZyA9PT0gdm9pZCAwKSB7IHJlcGxhY2VTdHJpbmcgPSAnLi4uJzsgfVxuICAgICAgICAgICAgdmFyIHRyaW1TdHJpbmc7XG4gICAgICAgICAgICBpZiAodGFyZ2V0U3RyaW5nICE9PSBudWxsICYmIHRhcmdldFN0cmluZyAhPT0gJycpIHtcbiAgICAgICAgICAgICAgICBpZiAobWF4TnVtYmVyIDwgdGFyZ2V0U3RyaW5nLmxlbmd0aCkge1xuICAgICAgICAgICAgICAgICAgICB2YXIgdGVtcFN0cmluZyA9IHRhcmdldFN0cmluZy5zdWJzdHIoMCwgbWF4TnVtYmVyKSArIHJlcGxhY2VTdHJpbmc7XG4gICAgICAgICAgICAgICAgICAgIHRyaW1TdHJpbmcgPSB0ZW1wU3RyaW5nO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBlbHNlIHtcbiAgICAgICAgICAgICAgICAgICAgdHJpbVN0cmluZyA9IHRhcmdldFN0cmluZztcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgcmV0dXJuIHRyaW1TdHJpbmc7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICBlbHNlIHtcbiAgICAgICAgICAgICAgICByZXR1cm4gdGFyZ2V0U3RyaW5nO1xuICAgICAgICAgICAgfVxuICAgICAgICB9O1xuICAgICAgICByZXR1cm4gU3RyaW5nT3BlcmF0b3I7XG4gICAgfSgpKTtcbiAgICBVdGlsaXR5LlN0cmluZ09wZXJhdG9yID0gU3RyaW5nT3BlcmF0b3I7XG4gICAgLyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tXG4gICAgKlxuICAgICogRGlhbG9nT3BlcmF0b3JcbiAgICAqXG4gICAgKlxuICAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAqL1xuICAgIHZhciBEaWFsb2dPcGVyYXRvciA9IChmdW5jdGlvbiAoKSB7XG4gICAgICAgIGZ1bmN0aW9uIERpYWxvZ09wZXJhdG9yKG9wdGlvbikge1xuICAgICAgICAgICAgaWYgKG9wdGlvbiA9PT0gdm9pZCAwKSB7IG9wdGlvbiA9IHt9OyB9XG4gICAgICAgICAgICB0aGlzLmNvbmZpZ3VyYXRpb25fID0ge1xuICAgICAgICAgICAgICAgICd2aWV3cG9ydCc6IHdpbmRvdyxcbiAgICAgICAgICAgICAgICAnY29udGFpbmVyJzogJyNjb250YWluZXInLFxuICAgICAgICAgICAgICAgICdiYWNrZ3JvdW5kJzogJy5tb2RhbC13aW5kb3ctYXJlYScsXG4gICAgICAgICAgICAgICAgJ2Nsb3NlJzogJy5tb2RhbC1jbG9zZScsXG4gICAgICAgICAgICAgICAgJ21hc2snOiAnLm1hc2snLFxuICAgICAgICAgICAgICAgICdjZW50ZXJpbmcnOiB0cnVlLFxuICAgICAgICAgICAgICAgICd0b3BNYXJnaW4nOiAxNSxcbiAgICAgICAgICAgICAgICAndGFibGV0VGhyZXNob2xkJzogVXRpbGl0eS5jb25maWd1cmF0aW9uLnRiV2lkdGgsXG4gICAgICAgICAgICAgICAgJ3NwVGhyZXNob2xkJzogVXRpbGl0eS5jb25maWd1cmF0aW9uLnNwV2lkdGgsXG4gICAgICAgICAgICAgICAgJ2ZpdFRpbWVySUQnOiAtMVxuICAgICAgICAgICAgfTtcbiAgICAgICAgICAgIHZhciB0aGlzXyA9IHRoaXM7XG4gICAgICAgICAgICAkLmV4dGVuZCh0aGlzXy5jb25maWd1cmF0aW9uXywgb3B0aW9uKTtcbiAgICAgICAgfVxuICAgICAgICBEaWFsb2dPcGVyYXRvci5wcm90b3R5cGUuc2hvd0RpYWxvZyA9IGZ1bmN0aW9uIChvcHRpb24pIHtcbiAgICAgICAgICAgIGlmIChvcHRpb24gPT09IHZvaWQgMCkgeyBvcHRpb24gPSB7fTsgfVxuICAgICAgICAgICAgdmFyIHRoaXNfID0gdGhpcztcbiAgICAgICAgICAgIHZhciBtZXJnZWRDb25maWd1cmF0aW9uID0gJC5leHRlbmQodGhpc18uY29uZmlndXJhdGlvbl8sIG9wdGlvbik7XG4gICAgICAgICAgICB2YXIgdmlld3BvcnQgPSBtZXJnZWRDb25maWd1cmF0aW9uLnZpZXdwb3J0O1xuICAgICAgICAgICAgdmFyIGNvbnRhaW5lciA9IG1lcmdlZENvbmZpZ3VyYXRpb24uY29udGFpbmVyO1xuICAgICAgICAgICAgdmFyIGJnID0gbWVyZ2VkQ29uZmlndXJhdGlvbi5iYWNrZ3JvdW5kO1xuICAgICAgICAgICAgdmFyIGNsb3NlQnRuID0gbWVyZ2VkQ29uZmlndXJhdGlvbi5jbG9zZTtcbiAgICAgICAgICAgIHZhciBtYXNrID0gbWVyZ2VkQ29uZmlndXJhdGlvbi5tYXNrO1xuICAgICAgICAgICAgdmFyIGRpYWxvZyA9IG1lcmdlZENvbmZpZ3VyYXRpb24uZGlhbG9nSUQ7XG4gICAgICAgICAgICAkKGJnKS5jc3MoJ3Zpc2liaWxpdHknLCAnaGlkZGVuJykuc2hvdygpO1xuICAgICAgICAgICAgJChkaWFsb2cpLmNzcygndmlzaWJpbGl0eScsICdoaWRkZW4nKS5zaG93KCk7XG4gICAgICAgICAgICBpZiAoJChjb250YWluZXIpLm91dGVySGVpZ2h0KCkgPj0gJCh2aWV3cG9ydCkub3V0ZXJIZWlnaHQoKSkge1xuICAgICAgICAgICAgICAgICQoYmcpLmZpbmQobWFzaykub3V0ZXJIZWlnaHQoJChjb250YWluZXIpLm91dGVySGVpZ2h0KCkpO1xuICAgICAgICAgICAgfVxuICAgICAgICAgICAgZWxzZSB7XG4gICAgICAgICAgICAgICAgJChiZykuZmluZChtYXNrKS5vdXRlckhlaWdodCgkKHZpZXdwb3J0KS5vdXRlckhlaWdodCgpKTtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICAgIGlmICgkKGRpYWxvZykub3V0ZXJIZWlnaHQoKSArIG1lcmdlZENvbmZpZ3VyYXRpb24udG9wTWFyZ2luID49ICQodmlld3BvcnQpLm91dGVySGVpZ2h0KCkpIHtcbiAgICAgICAgICAgICAgICAkKGNvbnRhaW5lcikuY3NzKCd0b3AnLCAwKTtcbiAgICAgICAgICAgICAgICAkKGRpYWxvZykuY3NzKCdtYXJnaW4tdG9wJywgbWVyZ2VkQ29uZmlndXJhdGlvbi50b3BNYXJnaW4pO1xuICAgICAgICAgICAgICAgIGlmICgkKGRpYWxvZykub3V0ZXJIZWlnaHQoKSArIG1lcmdlZENvbmZpZ3VyYXRpb24udG9wTWFyZ2luID49ICQoY29udGFpbmVyKS5vdXRlckhlaWdodCgpKSB7XG4gICAgICAgICAgICAgICAgICAgICQoYmcpLmZpbmQobWFzaykub3V0ZXJIZWlnaHQoJChkaWFsb2cpLm91dGVySGVpZ2h0KCkgKyBtZXJnZWRDb25maWd1cmF0aW9uLnRvcE1hcmdpbiAqIDIpO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBlbHNlIHtcbiAgICAgICAgICAgICAgICAgICAgJChiZykuZmluZChtYXNrKS5vdXRlckhlaWdodCgkKGNvbnRhaW5lcikub3V0ZXJIZWlnaHQoKSk7XG4gICAgICAgICAgICAgICAgICAgIGlmICh2aWV3cG9ydCA9PT0gd2luZG93KSB7XG4gICAgICAgICAgICAgICAgICAgICAgICBzY3JvbGxUb3AgPSAkKHdpbmRvdykuc2Nyb2xsVG9wKCk7XG4gICAgICAgICAgICAgICAgICAgICAgICBhZGp1c3RUb3AgPSBzY3JvbGxUb3AgKyAkKHdpbmRvdykub3V0ZXJIZWlnaHQoKSAvIDIgLSAkKGRpYWxvZykub3V0ZXJIZWlnaHQoKSAvIDI7XG4gICAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICAgICAgZWxzZSB7XG4gICAgICAgICAgICAgICAgICAgICAgICBzY3JvbGxUb3AgPSBOdW1iZXIoKCQoY29udGFpbmVyKS5jc3MoJ3RvcCcpLm1hdGNoKC8oXFxkKykvKSB8fCBbXSlbMV0pO1xuICAgICAgICAgICAgICAgICAgICAgICAgYWRqdXN0VG9wID0gc2Nyb2xsVG9wICsgJCh3aW5kb3cpLm91dGVySGVpZ2h0KCkgLyAyIC0gJChkaWFsb2cpLm91dGVySGVpZ2h0KCkgLyAyO1xuICAgICAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgICAgIGlmIChzY3JvbGxUb3AgPiBhZGp1c3RUb3AgfHwgIW1lcmdlZENvbmZpZ3VyYXRpb24uY2VudGVyaW5nKSB7XG4gICAgICAgICAgICAgICAgICAgICAgICBhZGp1c3RUb3AgPSBzY3JvbGxUb3AgKyBtZXJnZWRDb25maWd1cmF0aW9uLnRvcE1hcmdpbjtcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgICAgICBpZiAoYWRqdXN0VG9wICsgJChkaWFsb2cpLm91dGVySGVpZ2h0KCkgPj0gJChjb250YWluZXIpLm91dGVySGVpZ2h0KCkpIHtcbiAgICAgICAgICAgICAgICAgICAgICAgIGFkanVzdFRvcCA9IGFkanVzdFRvcCAtIChhZGp1c3RUb3AgKyAkKGRpYWxvZykub3V0ZXJIZWlnaHQoKSAtICQoY29udGFpbmVyKS5vdXRlckhlaWdodCgpKTtcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgICAgICAkKGRpYWxvZykuY3NzKCdtYXJnaW4tdG9wJywgYWRqdXN0VG9wKTtcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgYWRqdXN0TWFza0hlaWdodCgpO1xuICAgICAgICAgICAgfVxuICAgICAgICAgICAgZWxzZSB7XG4gICAgICAgICAgICAgICAgdmFyIGFkanVzdFRvcCA9IHZvaWQgMDtcbiAgICAgICAgICAgICAgICB2YXIgc2Nyb2xsVG9wID0gdm9pZCAwO1xuICAgICAgICAgICAgICAgIGlmICh2aWV3cG9ydCA9PT0gd2luZG93KSB7XG4gICAgICAgICAgICAgICAgICAgIHNjcm9sbFRvcCA9ICQod2luZG93KS5zY3JvbGxUb3AoKTtcbiAgICAgICAgICAgICAgICAgICAgYWRqdXN0VG9wID0gc2Nyb2xsVG9wICsgJCh3aW5kb3cpLm91dGVySGVpZ2h0KCkgLyAyIC0gJChkaWFsb2cpLm91dGVySGVpZ2h0KCkgLyAyO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBlbHNlIHtcbiAgICAgICAgICAgICAgICAgICAgc2Nyb2xsVG9wID0gTnVtYmVyKCgkKGNvbnRhaW5lcikuY3NzKCd0b3AnKS5tYXRjaCgvKFxcZCspLykgfHwgW10pWzFdKTtcbiAgICAgICAgICAgICAgICAgICAgYWRqdXN0VG9wID0gc2Nyb2xsVG9wICsgJCh3aW5kb3cpLm91dGVySGVpZ2h0KCkgLyAyIC0gJChkaWFsb2cpLm91dGVySGVpZ2h0KCkgLyAyO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBpZiAoc2Nyb2xsVG9wID4gYWRqdXN0VG9wIHx8ICFtZXJnZWRDb25maWd1cmF0aW9uLmNlbnRlcmluZykge1xuICAgICAgICAgICAgICAgICAgICBhZGp1c3RUb3AgPSBzY3JvbGxUb3AgKyBtZXJnZWRDb25maWd1cmF0aW9uLnRvcE1hcmdpbjtcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgJChkaWFsb2cpLmNzcygnbWFyZ2luLXRvcCcsIGFkanVzdFRvcCk7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICBpZiAodHlwZW9mIG1lcmdlZENvbmZpZ3VyYXRpb24ub25PcGVuZWQgPT09ICdmdW5jdGlvbicpIHtcbiAgICAgICAgICAgICAgICBtZXJnZWRDb25maWd1cmF0aW9uLm9uT3BlbmVkKG1lcmdlZENvbmZpZ3VyYXRpb24udG9wTWFyZ2luICogMik7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICAkKGJnKS5jc3MoJ3Zpc2liaWxpdHknLCAndmlzaWJsZScpLmhpZGUoKS5mYWRlSW4oNDAwKTtcbiAgICAgICAgICAgICQoZGlhbG9nKS5jc3MoJ3Zpc2liaWxpdHknLCAndmlzaWJsZScpO1xuICAgICAgICAgICAgZnVuY3Rpb24gYWRqdXN0TWFza0hlaWdodCgpIHtcbiAgICAgICAgICAgICAgICB2YXIgdGltZXJDb3VudGVyID0gMDtcbiAgICAgICAgICAgICAgICBtZXJnZWRDb25maWd1cmF0aW9uLmZpdFRpbWVySUQgPSBzZXRJbnRlcnZhbChmdW5jdGlvbiAoKSB7XG4gICAgICAgICAgICAgICAgICAgIGlmICgkKGRpYWxvZykub3V0ZXJIZWlnaHQoKSArIG1lcmdlZENvbmZpZ3VyYXRpb24udG9wTWFyZ2luID49ICQoY29udGFpbmVyKS5vdXRlckhlaWdodCgpKSB7XG4gICAgICAgICAgICAgICAgICAgICAgICAkKGJnKS5maW5kKG1hc2spLm91dGVySGVpZ2h0KCQoZGlhbG9nKS5vdXRlckhlaWdodCgpICsgbWVyZ2VkQ29uZmlndXJhdGlvbi50b3BNYXJnaW4gKiAyKTtcbiAgICAgICAgICAgICAgICAgICAgICAgIC8vIGNsZWFySW50ZXJ2YWwobWVyZ2VkQ29uZmlndXJhdGlvbi5maXRUaW1lcklEKTtcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgICAgICBlbHNlIHtcbiAgICAgICAgICAgICAgICAgICAgICAgICQoYmcpLmZpbmQobWFzaykub3V0ZXJIZWlnaHQoJChjb250YWluZXIpLm91dGVySGVpZ2h0KCkpO1xuICAgICAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgICAgIHRpbWVyQ291bnRlcisrO1xuICAgICAgICAgICAgICAgICAgICBpZiAodGltZXJDb3VudGVyID49IDUwKSB7XG4gICAgICAgICAgICAgICAgICAgICAgICBjbGVhckludGVydmFsKG1lcmdlZENvbmZpZ3VyYXRpb24uZml0VGltZXJJRCk7XG4gICAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICB9LCAyMDApO1xuICAgICAgICAgICAgfVxuICAgICAgICAgICAgdmFyIGN1cnJlbnRWaWV3O1xuICAgICAgICAgICAgdmFyIHByZXZpb3VzVmlldztcbiAgICAgICAgICAgICQod2luZG93KS5vZmYoJ3Jlc2l6ZS5kaWFsb2cnKTtcbiAgICAgICAgICAgICQod2luZG93KS5vbigncmVzaXplLmRpYWxvZycsIGZ1bmN0aW9uIChldmVudCkge1xuICAgICAgICAgICAgICAgIGlmICgkKHZpZXdwb3J0KS5vdXRlcldpZHRoKCkgPiBtZXJnZWRDb25maWd1cmF0aW9uLnRhYmxldFRocmVzaG9sZCkge1xuICAgICAgICAgICAgICAgICAgICBjdXJyZW50VmlldyA9ICdQQyc7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGVsc2UgaWYgKCQodmlld3BvcnQpLm91dGVyV2lkdGgoKSA8PSBtZXJnZWRDb25maWd1cmF0aW9uLnRhYmxldFRocmVzaG9sZCAmJlxuICAgICAgICAgICAgICAgICAgICAkKHZpZXdwb3J0KS5vdXRlcldpZHRoKCkgPiBtZXJnZWRDb25maWd1cmF0aW9uLnNwVGhyZXNob2xkKSB7XG4gICAgICAgICAgICAgICAgICAgIGN1cnJlbnRWaWV3ID0gJ1RBQkxFVCc7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGVsc2Uge1xuICAgICAgICAgICAgICAgICAgICBjdXJyZW50VmlldyA9ICdTUCc7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgICQoYmcpLmZpbmQobWFzaykub3V0ZXJIZWlnaHQoJChjb250YWluZXIpLm91dGVySGVpZ2h0KCkpO1xuICAgICAgICAgICAgICAgIGlmIChjdXJyZW50VmlldyAhPT0gcHJldmlvdXNWaWV3KSB7XG4gICAgICAgICAgICAgICAgICAgIGlmICgkKGRpYWxvZykub2Zmc2V0KCkudG9wICsgJChkaWFsb2cpLm91dGVySGVpZ2h0KCkgPj0gJChjb250YWluZXIpLm91dGVySGVpZ2h0KCkpIHtcbiAgICAgICAgICAgICAgICAgICAgICAgIHZhciBhZGp1c3RUb3AgPSAkKGNvbnRhaW5lcikub3V0ZXJIZWlnaHQoKSAtICQoZGlhbG9nKS5vdXRlckhlaWdodCgpICogMS4yO1xuICAgICAgICAgICAgICAgICAgICAgICAgJChkaWFsb2cpLmNzcygnbWFyZ2luLXRvcCcsIGFkanVzdFRvcCk7XG4gICAgICAgICAgICAgICAgICAgICAgICBpZiAoJChkaWFsb2cpLm91dGVySGVpZ2h0KCkgKyBtZXJnZWRDb25maWd1cmF0aW9uLnRvcE1hcmdpbiA+PSAkKGNvbnRhaW5lcikub3V0ZXJIZWlnaHQoKSkge1xuICAgICAgICAgICAgICAgICAgICAgICAgICAgICQoZGlhbG9nKS5jc3MoJ21hcmdpbi10b3AnLCBtZXJnZWRDb25maWd1cmF0aW9uLnRvcE1hcmdpbik7XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgJChiZykuZmluZChtYXNrKS5vdXRlckhlaWdodCgkKGRpYWxvZykub3V0ZXJIZWlnaHQoKSArIG1lcmdlZENvbmZpZ3VyYXRpb24udG9wTWFyZ2luICogMik7XG4gICAgICAgICAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICAgICAgYWRqdXN0TWFza0hlaWdodCgpO1xuICAgICAgICAgICAgICAgICAgICBwcmV2aW91c1ZpZXcgPSBjdXJyZW50VmlldztcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICB9KTtcbiAgICAgICAgICAgICQoZGlhbG9nKS5maW5kKGNsb3NlQnRuKS5vZmYoJ2NsaWNrJyk7XG4gICAgICAgICAgICAkKGRpYWxvZykuZmluZChjbG9zZUJ0bikub24oJ2NsaWNrJywgZnVuY3Rpb24gKGV2ZW50KSB7XG4gICAgICAgICAgICAgICAgZXZlbnQucHJldmVudERlZmF1bHQoKTtcbiAgICAgICAgICAgICAgICAkKGJnKS5oaWRlKCk7XG4gICAgICAgICAgICAgICAgJChkaWFsb2cpLmhpZGUoKTtcbiAgICAgICAgICAgICAgICAkKHdpbmRvdykub2ZmKCdyZXNpemUuZGlhbG9nJyk7XG4gICAgICAgICAgICAgICAgY2xlYXJJbnRlcnZhbChtZXJnZWRDb25maWd1cmF0aW9uLmZpdFRpbWVySUQpO1xuICAgICAgICAgICAgICAgIGlmICh0eXBlb2YgbWVyZ2VkQ29uZmlndXJhdGlvbi5vbkNsb3NlZCA9PT0gJ2Z1bmN0aW9uJykge1xuICAgICAgICAgICAgICAgICAgICBtZXJnZWRDb25maWd1cmF0aW9uLm9uQ2xvc2VkKCk7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgfSk7XG4gICAgICAgICAgICAkKGJnKS5maW5kKG1hc2spLm9mZignY2xpY2snKTtcbiAgICAgICAgICAgICQoYmcpLmZpbmQobWFzaykub24oJ2NsaWNrJywgZnVuY3Rpb24gKCkge1xuICAgICAgICAgICAgICAgICQoYmcpLmhpZGUoKTtcbiAgICAgICAgICAgICAgICAkKGRpYWxvZykuaGlkZSgpO1xuICAgICAgICAgICAgICAgICQod2luZG93KS5vZmYoJ3Jlc2l6ZS5kaWFsb2cnKTtcbiAgICAgICAgICAgICAgICBjbGVhckludGVydmFsKG1lcmdlZENvbmZpZ3VyYXRpb24uZml0VGltZXJJRCk7XG4gICAgICAgICAgICAgICAgaWYgKHR5cGVvZiBtZXJnZWRDb25maWd1cmF0aW9uLm9uQ2xvc2VkID09PSAnZnVuY3Rpb24nKSB7XG4gICAgICAgICAgICAgICAgICAgIG1lcmdlZENvbmZpZ3VyYXRpb24ub25DbG9zZWQoKTtcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICB9KTtcbiAgICAgICAgfTtcbiAgICAgICAgRGlhbG9nT3BlcmF0b3IucHJvdG90eXBlLmNsb3NlRGlhbG9nID0gZnVuY3Rpb24gKG9wdGlvbikge1xuICAgICAgICAgICAgaWYgKG9wdGlvbiA9PT0gdm9pZCAwKSB7IG9wdGlvbiA9IHt9OyB9XG4gICAgICAgICAgICB2YXIgdGhpc18gPSB0aGlzO1xuICAgICAgICAgICAgdmFyIG1lcmdlZENvbmZpZ3VyYXRpb24gPSAkLmV4dGVuZCh0aGlzXy5jb25maWd1cmF0aW9uXywgb3B0aW9uKTtcbiAgICAgICAgICAgIHZhciBiZyA9IG1lcmdlZENvbmZpZ3VyYXRpb24uYmFja2dyb3VuZDtcbiAgICAgICAgICAgIHZhciBkaWFsb2cgPSBtZXJnZWRDb25maWd1cmF0aW9uLmRpYWxvZ0lEO1xuICAgICAgICAgICAgJChiZykuaGlkZSgpO1xuICAgICAgICAgICAgJChkaWFsb2cpLmhpZGUoKTtcbiAgICAgICAgICAgICQod2luZG93KS5vZmYoJ3Jlc2l6ZS5kaWFsb2cnKTtcbiAgICAgICAgICAgIGNsZWFySW50ZXJ2YWwobWVyZ2VkQ29uZmlndXJhdGlvbi5maXRUaW1lcklEKTtcbiAgICAgICAgICAgIGlmICh0eXBlb2YgbWVyZ2VkQ29uZmlndXJhdGlvbi5vbkNsb3NlZCA9PT0gJ2Z1bmN0aW9uJykge1xuICAgICAgICAgICAgICAgIG1lcmdlZENvbmZpZ3VyYXRpb24ub25DbG9zZWQoKTtcbiAgICAgICAgICAgIH1cbiAgICAgICAgfTtcbiAgICAgICAgcmV0dXJuIERpYWxvZ09wZXJhdG9yO1xuICAgIH0oKSk7XG4gICAgVXRpbGl0eS5EaWFsb2dPcGVyYXRvciA9IERpYWxvZ09wZXJhdG9yO1xuICAgIC8qIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVxuICAgICpcbiAgICAqIEN1c3RvbUZ1bmN0aW9uXG4gICAgKlxuICAgICpcbiAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gKi9cbiAgICB2YXIgQ3VzdG9tRnVuY3Rpb24gPSAoZnVuY3Rpb24gKCkge1xuICAgICAgICBmdW5jdGlvbiBDdXN0b21GdW5jdGlvbigpIHtcbiAgICAgICAgfVxuICAgICAgICBDdXN0b21GdW5jdGlvbi5wcm90b3R5cGUuZ2V0RGF0YSA9IGZ1bmN0aW9uICh1cmwpIHtcbiAgICAgICAgICAgIHZhciBkZWZlcnJlZE9iamVjdCA9ICQuRGVmZXJyZWQoKTtcbiAgICAgICAgICAgICQuYWpheCh7XG4gICAgICAgICAgICAgICAgdXJsOiB1cmwsXG4gICAgICAgICAgICAgICAgZGF0YVR5cGU6ICdqc29uJyxcbiAgICAgICAgICAgICAgICBjYWNoZTogZmFsc2UsXG4gICAgICAgICAgICAgICAgc3VjY2VzczogZnVuY3Rpb24gKGRhdGEpIHtcbiAgICAgICAgICAgICAgICAgICAgZGVmZXJyZWRPYmplY3QucmVzb2x2ZShkYXRhKTtcbiAgICAgICAgICAgICAgICB9LFxuICAgICAgICAgICAgICAgIGVycm9yOiBkZWZlcnJlZE9iamVjdC5yZWplY3RcbiAgICAgICAgICAgIH0pO1xuICAgICAgICAgICAgcmV0dXJuIGRlZmVycmVkT2JqZWN0LnByb21pc2UoKTtcbiAgICAgICAgfTtcbiAgICAgICAgQ3VzdG9tRnVuY3Rpb24ucHJvdG90eXBlLmlzQXJyYXkgPSBmdW5jdGlvbiAob2JqKSB7XG4gICAgICAgICAgICByZXR1cm4gISghb2JqIHx8XG4gICAgICAgICAgICAgICAgKCFvYmoubGVuZ3RoIHx8IG9iai5sZW5ndGggPT09IDApIHx8XG4gICAgICAgICAgICAgICAgdHlwZW9mIG9iaiAhPT0gJ29iamVjdCcgfHxcbiAgICAgICAgICAgICAgICAhb2JqLmNvbnN0cnVjdG9yIHx8XG4gICAgICAgICAgICAgICAgb2JqLm5vZGVUeXBlIHx8XG4gICAgICAgICAgICAgICAgb2JqLml0ZW0pO1xuICAgICAgICB9O1xuICAgICAgICBDdXN0b21GdW5jdGlvbi5wcm90b3R5cGUuc3RyaW5naWZ5ID0gZnVuY3Rpb24gKG9iaikge1xuICAgICAgICAgICAgdmFyIHRoaXNfID0gdGhpcztcbiAgICAgICAgICAgIHZhciB0ID0gdHlwZW9mIChvYmopO1xuICAgICAgICAgICAgdmFyIGZvcm1hdFN0cmluZztcbiAgICAgICAgICAgIGlmICh0ICE9PSBcIm9iamVjdFwiIHx8IG9iaiA9PT0gbnVsbCkge1xuICAgICAgICAgICAgICAgIGlmICh0ID09PSBcInN0cmluZ1wiKSB7XG4gICAgICAgICAgICAgICAgICAgIGZvcm1hdFN0cmluZyA9ICdcIicgKyBvYmogKyAnXCInO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICByZXR1cm4gU3RyaW5nKGZvcm1hdFN0cmluZyk7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICBlbHNlIHtcbiAgICAgICAgICAgICAgICB2YXIgbiA9IHZvaWQgMCwgdiA9IHZvaWQgMCwganNvbiA9IFtdO1xuICAgICAgICAgICAgICAgIHZhciBhcnIgPSAob2JqICYmIHRoaXNfLmlzQXJyYXkob2JqKSk7XG4gICAgICAgICAgICAgICAgZm9yIChuIGluIG9iaikge1xuICAgICAgICAgICAgICAgICAgICB2ID0gb2JqW25dO1xuICAgICAgICAgICAgICAgICAgICB0ID0gdHlwZW9mICh2KTtcbiAgICAgICAgICAgICAgICAgICAgaWYgKG9iai5oYXNPd25Qcm9wZXJ0eShuKSkge1xuICAgICAgICAgICAgICAgICAgICAgICAgaWYgKHQgPT09IFwic3RyaW5nXCIpIHtcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICB2ID0gJ1wiJyArIHYgKyAnXCInO1xuICAgICAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgICAgICAgICAgZWxzZSBpZiAodCA9PT0gXCJvYmplY3RcIiAmJiB2ICE9PSBudWxsKSB7XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgdiA9IHRoaXNfLnN0cmluZ2lmeSh2KTtcbiAgICAgICAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICAgICAgICAgIGpzb24ucHVzaCgoYXJyID8gXCJcIiA6ICdcIicgKyBuICsgJ1wiOicpICsgU3RyaW5nKHYpKTtcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICByZXR1cm4gKGFyciA/IFwiW1wiIDogXCJ7XCIpICsgU3RyaW5nKGpzb24pICsgKGFyciA/IFwiXVwiIDogXCJ9XCIpO1xuICAgICAgICAgICAgfVxuICAgICAgICB9O1xuICAgICAgICByZXR1cm4gQ3VzdG9tRnVuY3Rpb247XG4gICAgfSgpKTtcbiAgICBVdGlsaXR5LkN1c3RvbUZ1bmN0aW9uID0gQ3VzdG9tRnVuY3Rpb247XG59KShVdGlsaXR5IHx8IChVdGlsaXR5ID0ge30pKTtcbmV4cG9ydHMuZGVmYXVsdCA9IFV0aWxpdHk7XG4vKiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1cbiog44OZ44Oz44OA44O8XG4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gKi9cbi8qIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVxuKiBBbGlhcyByZXF1ZXN0QW5pbWF0aW9uRnJhbWUgLyBjYW5jZWxBbmltYXRpb25GcmFtZVxuKiBmdW5jdGlvbiBsb29wKCkge1xuKiAgIHRpbWVySUQgPSByZXF1ZXN0QW5pbUZyYW1lKGxvb3ApO1xuKiB9XG4qIGNhbmNlbFJlcXVlc3RBbmltRnJhbWUodGltZXJJRCk7XG4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gKi9cbihmdW5jdGlvbiAoKSB7XG4gICAgdmFyIGxhc3RUaW1lID0gMDtcbiAgICB2YXIgdmVuZG9ycyA9IFsnbXMnLCAnbW96JywgJ3dlYmtpdCcsICdvJ107XG4gICAgZm9yICh2YXIgeCA9IDAsIGxpbWl0ID0gdmVuZG9ycy5sZW5ndGg7IHggPCBsaW1pdCAmJiAhd2luZG93LnJlcXVlc3RBbmltYXRpb25GcmFtZTsgKyt4KSB7XG4gICAgICAgIHdpbmRvdy5yZXF1ZXN0QW5pbWF0aW9uRnJhbWUgPSB3aW5kb3dbdmVuZG9yc1t4XSArICdSZXF1ZXN0QW5pbWF0aW9uRnJhbWUnXTtcbiAgICAgICAgd2luZG93LmNhbmNlbEFuaW1hdGlvbkZyYW1lID0gd2luZG93W3ZlbmRvcnNbeF0gKyAnQ2FuY2VsQW5pbWF0aW9uRnJhbWUnXSB8fCB3aW5kb3dbdmVuZG9yc1t4XSArICdDYW5jZWxSZXF1ZXN0QW5pbWF0aW9uRnJhbWUnXTtcbiAgICB9XG4gICAgaWYgKCF3aW5kb3cucmVxdWVzdEFuaW1hdGlvbkZyYW1lKSB7XG4gICAgICAgIHdpbmRvdy5yZXF1ZXN0QW5pbWF0aW9uRnJhbWUgPSBmdW5jdGlvbiAoY2FsbGJhY2spIHtcbiAgICAgICAgICAgIHZhciBjdXJyVGltZSA9IG5ldyBEYXRlKCkuZ2V0VGltZSgpO1xuICAgICAgICAgICAgdmFyIHRpbWVUb0NhbGwgPSBNYXRoLm1heCgwLCAxNiAtIChjdXJyVGltZSAtIGxhc3RUaW1lKSk7XG4gICAgICAgICAgICB2YXIgaWQgPSB3aW5kb3cuc2V0VGltZW91dChmdW5jdGlvbiAoKSB7XG4gICAgICAgICAgICAgICAgY2FsbGJhY2soY3VyclRpbWUgKyB0aW1lVG9DYWxsKTtcbiAgICAgICAgICAgIH0sIHRpbWVUb0NhbGwpO1xuICAgICAgICAgICAgbGFzdFRpbWUgPSBjdXJyVGltZSArIHRpbWVUb0NhbGw7XG4gICAgICAgICAgICByZXR1cm4gaWQ7XG4gICAgICAgIH07XG4gICAgfVxuICAgIGlmICghd2luZG93LmNhbmNlbEFuaW1hdGlvbkZyYW1lKSB7XG4gICAgICAgIHdpbmRvdy5jYW5jZWxBbmltYXRpb25GcmFtZSA9IGZ1bmN0aW9uIChpZCkge1xuICAgICAgICAgICAgY2xlYXJUaW1lb3V0KGlkKTtcbiAgICAgICAgfTtcbiAgICB9XG4gICAgd2luZG93LnJlcXVlc3RBbmltRnJhbWUgPSB3aW5kb3cucmVxdWVzdEFuaW1hdGlvbkZyYW1lO1xuICAgIHdpbmRvdy5jYW5jZWxSZXF1ZXN0QW5pbUZyYW1lID0gd2luZG93LmNhbmNlbEFuaW1hdGlvbkZyYW1lO1xufSkoKTtcbi8qIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVxuKiDlhbHpgJrjgqTjg5njg7Pjg4hcbi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAqL1xuKGZ1bmN0aW9uICgpIHtcbiAgICB2YXIgd2luZG93U3RhdHVzID0gbmV3IFV0aWxpdHkuV2luZG93U3RhdHVzT3BlcmF0b3IoKTtcbiAgICAkKGZ1bmN0aW9uICgpIHtcbiAgICAgICAgLy8g44K544Kv44Ot44O844OrXG4gICAgICAgICQoJ2FbaHJlZl49XCIjXCJdJykubm90KCcubm8tc2Nyb2xsJykuY2xpY2soZnVuY3Rpb24gKCkge1xuICAgICAgICAgICAgdmFyIHNwZWVkID0gODAwO1xuICAgICAgICAgICAgdmFyIGhyZWYgPSAkKHRoaXMpLmF0dHIoJ2hyZWYnKTtcbiAgICAgICAgICAgIHZhciB0YXJnZXQgPSAkKGhyZWYgPT09ICcjJyB8fCBocmVmID09PSAnJyA/ICdodG1sJyA6IGhyZWYpO1xuICAgICAgICAgICAgaWYgKHRhcmdldFswXSkge1xuICAgICAgICAgICAgICAgIHZhciBwb3NpdGlvbiA9IHRhcmdldC5vZmZzZXQoKS50b3A7XG4gICAgICAgICAgICAgICAgVXRpbGl0eS5jb25maWd1cmF0aW9uLmFuaW1hdGlvblByb2dyZXNzWydzY3JvbGwnXSA9IHRydWU7XG4gICAgICAgICAgICAgICAgJChVdGlsaXR5LmNvbmZpZ3VyYXRpb24uc2Nyb2xsYWJsZUVsZW1lbnQpLnN0b3AoKS5hbmltYXRlKHtcbiAgICAgICAgICAgICAgICAgICAgc2Nyb2xsVG9wOiBwb3NpdGlvblxuICAgICAgICAgICAgICAgIH0sIHNwZWVkLCAnc3dpbmcnLCBmdW5jdGlvbiAoKSB7XG4gICAgICAgICAgICAgICAgICAgIFV0aWxpdHkuY29uZmlndXJhdGlvbi5hbmltYXRpb25Qcm9ncmVzc1snc2Nyb2xsJ10gPSBmYWxzZTtcbiAgICAgICAgICAgICAgICB9KTtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICAgIHJldHVybiBmYWxzZTtcbiAgICAgICAgfSk7XG4gICAgICAgIC8vIOODm+ODkOODvFxuICAgICAgICBpZiAoIXdpbmRvd1N0YXR1cy5hbnlNb2JpbGUoKSkge1xuICAgICAgICAgICAgJCh3aW5kb3cpLm9uKCdwc2V1ZG9Ib3ZlcicsIGZ1bmN0aW9uICgpIHtcbiAgICAgICAgICAgICAgICB2YXIgdGFyZ2V0RWxlbWVudENsYXNzID0gJy5lbGVtZW50LWhvdmVyJztcbiAgICAgICAgICAgICAgICAkKHRhcmdldEVsZW1lbnRDbGFzcykub2ZmKCdtb3VzZWVudGVyLnBzZXVkb0hvdmVyJyk7XG4gICAgICAgICAgICAgICAgJCh0YXJnZXRFbGVtZW50Q2xhc3MpLm9mZignbW91c2VsZWF2ZS5wc2V1ZG9Ib3ZlcicpO1xuICAgICAgICAgICAgICAgICQodGFyZ2V0RWxlbWVudENsYXNzKS5vbignbW91c2VlbnRlci5wc2V1ZG9Ib3ZlcicsIGZ1bmN0aW9uICgpIHtcbiAgICAgICAgICAgICAgICAgICAgJCh0aGlzKS5hZGRDbGFzcygncHNldWRvLWhvdmVyJyk7XG4gICAgICAgICAgICAgICAgfSlcbiAgICAgICAgICAgICAgICAgICAgLm9uKCdtb3VzZWxlYXZlLnBzZXVkb0hvdmVyJywgZnVuY3Rpb24gKCkge1xuICAgICAgICAgICAgICAgICAgICAkKHRoaXMpLnJlbW92ZUNsYXNzKCdwc2V1ZG8taG92ZXInKTtcbiAgICAgICAgICAgICAgICB9KTtcbiAgICAgICAgICAgIH0pO1xuICAgICAgICAgICAgJCh3aW5kb3cpLnRyaWdnZXIoJ3BzZXVkb0hvdmVyJyk7XG4gICAgICAgIH1cbiAgICB9KTtcbn0oKSk7XG5cblxuXG4vLyBXRUJQQUNLIEZPT1RFUiAvL1xuLy8gLi9ub2RlX21vZHVsZXMvdHMtbG9hZGVyIS4vc3JjL3NjcmlwdHMvX3V0aWxpdHkudHMiXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7QUFNQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTs7Ozs7QUFLQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7Ozs7O0FBS0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOzs7OztBQUtBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUFBO0FBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTs7Ozs7QUFLQTtBQUNBO0FBQ0E7QUFDQTtBQUFBO0FBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQUE7QUFBQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFBQTtBQUFBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7Ozs7O0FBS0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOztBQUVBO0FBQ0E7Ozs7OztBQU1BO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOztBQUVBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOyIsInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///185\n");
 
-
-/***/ }
+/***/ })
 
 /******/ });
-//# sourceMappingURL=main.js.map

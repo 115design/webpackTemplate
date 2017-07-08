@@ -23,3 +23,6 @@ request_test/
 
 # .log無視
 */*.log
+
+# .lock無視
+*/*.lock

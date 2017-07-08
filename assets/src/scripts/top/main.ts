@@ -72,7 +72,6 @@ interface NumbersAndStringsAndObjects {
     function fit() {
       neutralize();
       clear();
-
     }
 
     /* ------------------------------------------------
