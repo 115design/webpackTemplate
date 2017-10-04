@@ -2,7 +2,7 @@
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 
-This is Webpack Template.(Webpack/Typescript/React/Sass/Browser-sync/Gulp/Yarn)
+This is HTML Template with Webpack.(Webpack/Typescript/React/Sass/Browser-sync/Gulp/Yarn)
 
 ## Installation
 
