@@ -34,6 +34,10 @@ interface NumbersAndStringsAndObjects {
 (function(window) {
   let windowStatus = new Utility.WindowStatusOperator();
   let dialog = new Utility.DialogOperator();
+  let currentView = null;
+  let previousView = null;
+  let currentStatus = null;
+  let previousStatus = null;
 
   $(function() {
 
@@ -78,9 +82,6 @@ interface NumbersAndStringsAndObjects {
     * リサイズ
     ------------------------------------------------ */
     (function() {
-      let defaultSize = 1200;
-      let currentView = null;
-      let previousView = null;
       $(window).on('resize', function() {
         if ($(window).outerWidth() < Utility.configuration.tbWidth) {
           currentView = 'SP';
@@ -113,8 +114,6 @@ interface NumbersAndStringsAndObjects {
     * オリエンテーションチェンジ
     ------------------------------------------------ */
     (function() {
-      let previousStatus = null;
-      let currentStatus = null;
       $(window).on('orientationchange', function() {
         if (Math.abs(Number(window.orientation)) === 90) {
           currentStatus = 'horizontal';
